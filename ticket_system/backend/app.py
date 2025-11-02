@@ -64,12 +64,16 @@ def categorize_ticket_with_ai(ticket_id, title, description):
         if category not in valid_categories:
             category = "Other"
 
-        # Update the ticket in the database within the application context
-        with app.app_context():
-            db = get_db()
-            db.execute("UPDATE tickets SET category = ? WHERE id = ?", (category, ticket_id))
-            db.commit()
+        # Update the ticket in the database with a direct connection
+        conn = None
+        try:
+            conn = get_db_connection()
+            conn.execute("UPDATE tickets SET category = ? WHERE id = ?", (category, ticket_id))
+            conn.commit()
             print(f"Successfully categorized ticket {ticket_id} as '{category}'")
+        finally:
+            if conn:
+                conn.close()
 
     except requests.exceptions.RequestException as e:
         print(f"Error calling Ollama API: {e}")
