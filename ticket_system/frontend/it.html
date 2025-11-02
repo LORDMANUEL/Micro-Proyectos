@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Ticket Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Reusing the neumorphism styles from client.html */
+        .neumorphism-container {
+            background-color: #e0e5ec;
+        }
+        .neumorphism-card {
+            background-color: #e0e5ec;
+            border-radius: 20px;
+            box-shadow: 9px 9px 16px #a3b1c6, -9px -9px 16px #ffffff;
+            padding: 2rem;
+        }
+        .neumorphism-table th, .neumorphism-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #c8d0e7;
+        }
+        .neumorphism-table th {
+            color: #333;
+            font-weight: 600;
+        }
+        .neumorphism-button {
+            background-color: #e0e5ec;
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            color: #333;
+            box-shadow: 4px 4px 8px #a3b1c6, -4px -4px 8px #ffffff;
+            transition: all 0.2s ease-in-out;
+        }
+        .neumorphism-button:hover {
+            box-shadow: 6px 6px 12px #a3b1c6, -6px -6px 12px #ffffff;
+        }
+        .neumorphism-button:active {
+            box-shadow: inset 4px 4px 8px #a3b1c6, inset -4px -4px 8px #ffffff;
+        }
+    </style>
+</head>
+<body class="neumorphism-container min-h-screen p-8">
+
+    <div class="neumorphism-card w-full max-w-6xl mx-auto">
+        <h1 class="text-3xl font-bold text-center text-gray-700 mb-6">Ticket Dashboard</h1>
+
+        <div class="overflow-x-auto">
+            <table class="w-full neumorphism-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Status</th>
+                        <th>Created At</th>
+                        <th>Created By</th>
+                        <th>Department</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="ticket-queue">
+                    <!-- Tickets will be loaded here dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const ticketQueue = document.getElementById('ticket-queue');
+
+            async function fetchTickets() {
+                try {
+                    const response = await fetch('/api/tickets');
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch tickets');
+                    }
+                    const tickets = await response.json();
+                    renderTickets(tickets);
+                } catch (error) {
+                    ticketQueue.innerHTML = `<tr><td colspan="7" class="text-center text-red-500">${error.message}</td></tr>`;
+                }
+            }
+
+            function renderTickets(tickets) {
+                if (tickets.length === 0) {
+                    ticketQueue.innerHTML = `<tr><td colspan="7" class="text-center text-gray-500">No tickets in the queue.</td></tr>`;
+                    return;
+                }
+
+                ticketQueue.innerHTML = tickets.map(ticket => `
+                    <tr>
+                        <td>${ticket.id}</td>
+                        <td>${ticket.title}</td>
+                        <td>${ticket.category}</td>
+                        <td><span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-sm">${ticket.status}</span></td>
+                        <td>${new Date(ticket.created_at).toLocaleString()}</td>
+                        <td>${ticket.created_by}</td>
+                        <td>${ticket.department}</td>
+                        <td>
+                            <button class="neumorphism-button mr-2">Assign</button>
+                            <button class="neumorphism-button">Close</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            fetchTickets();
+        });
+    </script>
+</body>
+</html>
