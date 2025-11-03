@@ -16,8 +16,8 @@
 | 6.  | [Compartidor de Archivos en Red Local](#6-compartidor-de-archivos-en-red-local)                 | ✅ Completado |
 | 7.  | [Sistema de Micro-Inventario de PCs](#7-sistema-de-micro-inventario-de-pcs)                   | ✅ Completado |
 | 8.  | [Plataforma de Gestión de Impresoras](#8-plataforma-de-gesti-n-de-impresoras)                  | ✅ Completado |
-| 9.  | Sistema de Scripts para Windows con IA               | ⏳ En Desarrollo |
-| 10. | Testeador de Diagnóstico para Windows                | ⏳ Pendiente  |
+| 9.  | [Sistema de Scripts para Windows con IA](#9-sistema-de-scripts-para-windows-con-ia)               | ✅ Completado |
+| 10. | Testeador de Diagnóstico para Windows                | ⏳ En Desarrollo |
 | 11. | Módulo de Reparación de Laptops (Addon)              | ⏳ Pendiente  |
 | 12. | Plataforma de Entrenamiento RAG con Qdrant           | ⏳ Pendiente  |
 
@@ -218,28 +218,23 @@ Esta herramienta actúa como un repositorio centralizado para scripts de Windows
 
 ---
 
-## 8. Plataforma de Gestión de Impresoras
+## 10. Testeador de Diagnóstico para Windows
 
-Esta es una herramienta avanzada para la administración de flotas de impresoras. No solo permite llevar un inventario detallado de los equipos y gestionar una bodega interna de tóners, sino que también utiliza **inteligencia artificial** para proporcionar análisis predictivos y estratégicos, ayudando a optimizar costos y mantenimiento.
+Esta herramienta utiliza la IA para actuar como un asistente de diagnóstico experto. Simplemente describe un problema en un sistema Windows, y la IA generará una guía paso a paso para que un técnico pueda identificar y solucionar problemas relacionados con malware o drivers defectuosos.
 
-![Captura de pantalla de la Plataforma de Impresoras](docs/images/printer_platform.png)
+![Captura de pantalla del Testeador de Windows](docs/images/windows_tester.png)
 
 ### ✨ Características Principales
 
--   **🖨️ Inventario Centralizado:** Registra impresoras con detalles clave como modelo, ubicación, IP y enlace al driver.
--   **📦 Bodega de Tóners:** Gestiona el stock interno de cartuchos de tóner, desde la definición de tipos hasta el control de cantidades.
--   **🤖 Análisis Predictivo con IA:**
-    -   **Predicción de Cambio de Tóner:** Estima cuándo se necesitará el próximo reemplazo basándose en el historial de uso.
-    -   **Análisis de Rentabilidad:** Evalúa si un modelo de impresora es rentable, considerando su precio y el costo de sus consumibles.
-    -   **Evaluación de Reparabilidad:** Ofrece un resumen sobre la facilidad de mantenimiento y problemas comunes del modelo.
--   **🧾 Registro de Mantenimiento:** Permite registrar cada cambio de tóner, alimentando el motor de IA.
--   **🎨 Interfaz Neumorfista:** Un dashboard limpio y moderno para una gestión visualmente agradable.
+-   **🧠 Diagnóstico Inteligente:** Proporciona guías de solución de problemas generadas por IA a partir de una descripción en lenguaje natural.
+-   **🎯 Enfocado en Problemas Comunes:** Especializado en generar pasos para detectar malware y fallos de drivers.
+-   **🚀 Interfaz Minimalista:** Una única pantalla para describir el problema y recibir la guía, sin distracciones.
+-   **📄 Formato Claro:** La guía generada está estructurada con encabezados y pasos fáciles de seguir.
 
 ### 🛠️ Stack Tecnológico
 
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
-![SQLite](https.img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 

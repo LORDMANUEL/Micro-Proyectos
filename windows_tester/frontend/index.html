@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testeador de Diagnóstico para Windows</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Testeador de Diagnóstico para Windows</h1>
+
+        <div class="card">
+            <h2>Describe el Problema</h2>
+            <form id="diagnose-form">
+                <textarea id="problem-description" placeholder="Ej: El PC está muy lento, el navegador se cierra solo y aparecen ventanas extrañas..." required></textarea>
+                <button type="submit" class="btn">Generar Guía de Diagnóstico</button>
+            </form>
+        </div>
+
+        <div class="card" id="result-container" style="display:none;">
+            <h2>Guía de Diagnóstico Sugerida</h2>
+            <div id="diagnostic-guide">
+                <!-- La guía generada por la IA aparecerá aquí -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #e0e5ec;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #5b6a82;
+}
+
+.card {
+    background-color: #e0e5ec;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 9px 9px 16px #a3b1c6, -9px -9px 16px #ffffff;
+    margin-top: 20px;
+}
+
+.btn {
+    display: block;
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 15px 20px;
+    border-radius: 10px;
+    background-color: #e0e5ec;
+    box-shadow: 5px 5px 10px #a3b1c6, -5px -5px 10px #ffffff;
+    cursor: pointer;
+    font-weight: bold;
+    color: #5b6a82;
+    transition: all 0.2s ease-in-out;
+    margin-top: 10px;
+}
+
+.btn:hover {
+    box-shadow: inset 5px 5px 10px #a3b1c6, inset -5px -5px 10px #ffffff;
+}
+
+textarea {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border: none;
+    background-color: #e0e5ec;
+    box-shadow: inset 5px 5px 10px #a3b1c6, inset -5px -5px 10px #ffffff;
+    outline: none;
+    height: 150px;
+    resize: vertical;
+}
+
+#diagnostic-guide {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    line-height: 1.6;
+}
