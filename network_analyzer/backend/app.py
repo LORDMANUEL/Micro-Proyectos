@@ -68,11 +68,25 @@ def analyze_ip():
     whois_data = {}
     try:
         w = whois.whois(ip_address)
+        org = w.org
+        country = w.country
+
+        # Fallback for complex WHOIS records (like Google's)
+        if not org and w.text:
+            for line in w.text.split('\n'):
+                if 'organization' in line.lower() or 'org-name' in line.lower():
+                    org = line.split(':')[1].strip()
+                    break
+        if not country and w.text:
+             for line in w.text.split('\n'):
+                if 'country' in line.lower():
+                    country = line.split(':')[1].strip()
+                    break
+
         whois_data = {
+            'organization': org,
+            'country': country,
             'registrar': w.registrar,
-            'organization': w.org,
-            'creation_date': w.creation_date,
-            'emails': w.emails,
         }
     except Exception:
         whois_data = {'error': 'Could not retrieve WHOIS data.'}

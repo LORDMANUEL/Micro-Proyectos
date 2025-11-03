@@ -186,6 +186,17 @@ def assign_ticket(ticket_id):
 def serve_client_page():
     return send_from_directory(app.static_folder, 'client.html')
 
+# API endpoint to get all client users
+@app.route('/api/users', methods=['GET'])
+def get_users():
+    try:
+        db = get_db()
+        users = db.execute("SELECT id, username FROM users WHERE role = 'client'").fetchall()
+        user_list = [dict(user) for user in users]
+        return jsonify(user_list), 200
+    except Exception as e:
+        return jsonify({'error': f'An error occurred: {str(e)}'}), 500
+
 # Route to serve the IT staff-facing HTML page
 @app.route('/it')
 def serve_it_page():

@@ -54,4 +54,5 @@ CREATE TABLE comments (
 INSERT INTO departments (name) VALUES ('IT'), ('Human Resources'), ('Finance');
 INSERT INTO users (username, password, email, role, department_id) VALUES
     ('admin', 'adminpass', 'admin@example.com', 'it_staff', 1),
-    ('johndoe', 'userpass', 'john.doe@example.com', 'client', 2);
+    ('johndoe', 'userpass', 'john.doe@example.com', 'client', 2),
+    ('janedoe', 'userpass', 'jane.doe@example.com', 'client', 3);
