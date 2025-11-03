@@ -159,25 +159,45 @@ def close_ticket(ticket_id):
     except Exception as e:
         return jsonify({'error': f'An error occurred: {str(e)}'}), 500
 
-# API endpoint to assign a ticket to the default admin
+# API endpoint to assign a ticket to a specific admin
 @app.route('/api/tickets/<int:ticket_id>/assign', methods=['PUT'])
 def assign_ticket(ticket_id):
+    data = request.get_json()
+    assignee_id = data.get('assignee_id')
+
+    if not assignee_id:
+        return jsonify({'error': 'Assignee ID is required'}), 400
+
     try:
         db = get_db()
-        # Assign to the default admin user (ID = 1) and update timestamp
+        # First, check if the user is an admin
+        user_role = db.execute("SELECT role FROM users WHERE id = ?", (assignee_id,)).fetchone()
+        if not user_role or user_role['role'] != 'admin':
+            return jsonify({'error': 'Invalid assignee ID or user is not an admin'}), 400
+
         db.execute(
-            "UPDATE tickets SET assigned_to_id = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
-            (ticket_id,)
+            "UPDATE tickets SET assigned_to_id = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
+            (assignee_id, ticket_id)
         )
         db.commit()
 
-        # Fetch the admin's username to return it in the response
-        admin_user = db.execute("SELECT username FROM users WHERE id = 1").fetchone()
+        assignee_user = db.execute("SELECT username FROM users WHERE id = ?", (assignee_id,)).fetchone()
 
         return jsonify({
-            'message': f'Ticket {ticket_id} assigned to {admin_user["username"]}',
-            'assigned_to': admin_user["username"]
+            'message': f'Ticket {ticket_id} assigned to {assignee_user["username"]}',
+            'assigned_to': assignee_user["username"]
         }), 200
+    except Exception as e:
+        return jsonify({'error': f'An error occurred: {str(e)}'}), 500
+
+# API endpoint to get all IT staff members
+@app.route('/api/it_staff', methods=['GET'])
+def get_it_staff():
+    try:
+        db = get_db()
+        staff = db.execute("SELECT id, username FROM users WHERE role = 'admin'").fetchall()
+        staff_list = [dict(s) for s in staff]
+        return jsonify(staff_list), 200
     except Exception as e:
         return jsonify({'error': f'An error occurred: {str(e)}'}), 500
 

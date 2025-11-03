@@ -7,7 +7,6 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Reusing the neumorphism styles from client.html */
         .neumorphism-container {
             background-color: #e0e5ec;
         }
@@ -39,14 +38,22 @@
         .neumorphism-button:hover {
             box-shadow: 6px 6px 12px #a3b1c6, -6px -6px 12px #ffffff;
         }
-        .neumorphism-button:active {
+        .neumorphism-button:active, .neumorphism-button:disabled {
+            box-shadow: inset 4px 4px 8px #a3b1c6, inset -4px -4px 8px #ffffff;
+            opacity: 0.6;
+        }
+        .neumorphism-select {
+            background-color: #e0e5ec;
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem;
             box-shadow: inset 4px 4px 8px #a3b1c6, inset -4px -4px 8px #ffffff;
         }
     </style>
 </head>
 <body class="neumorphism-container min-h-screen p-8">
 
-    <div class="neumorphism-card w-full max-w-6xl mx-auto">
+    <div class="neumorphism-card w-full max-w-7xl mx-auto">
         <h1 class="text-3xl font-bold text-center text-gray-700 mb-6">Ticket Dashboard</h1>
 
         <div class="overflow-x-auto">
@@ -60,7 +67,7 @@
                         <th>Assigned To</th>
                         <th>Created By</th>
                         <th>Department</th>
-                        <th>Actions</th>
+                        <th class="text-center">Actions</th>
                     </tr>
                 </thead>
                 <tbody id="ticket-queue">
@@ -73,6 +80,17 @@
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             const ticketQueue = document.getElementById('ticket-queue');
+            let itStaff = [];
+
+            async function fetchItStaff() {
+                try {
+                    const response = await fetch('/api/it_staff');
+                    if (!response.ok) throw new Error('Failed to fetch IT staff');
+                    itStaff = await response.json();
+                } catch (error) {
+                    console.error(error.message);
+                }
+            }
 
             async function fetchTickets() {
                 try {
@@ -91,33 +109,51 @@
                     return;
                 }
 
+                const staffOptions = itStaff.map(staff => `<option value="${staff.id}">${staff.username}</option>`).join('');
+
                 ticketQueue.innerHTML = tickets.map(ticket => `
-                    <tr>
+                    <tr data-ticket-id="${ticket.id}">
                         <td>${ticket.id}</td>
                         <td>${ticket.title}</td>
-                        <td>${ticket.category}</td>
-                        <td><span class="px-2 py-1 font-semibold leading-tight rounded-sm ${ticket.status === 'Closed' ? 'text-red-700 bg-red-100' : 'text-green-700 bg-green-100'}">${ticket.status}</span></td>
+                        <td>${ticket.category || 'Pending...'}</td>
+                        <td><span class="status-span px-2 py-1 font-semibold leading-tight rounded-sm ${ticket.status === 'Closed' ? 'text-red-700 bg-red-100' : 'text-green-700 bg-green-100'}">${ticket.status}</span></td>
                         <td class="assigned-to">${ticket.assigned_to || 'Unassigned'}</td>
                         <td>${ticket.created_by}</td>
                         <td>${ticket.department}</td>
-                        <td data-ticket-id="${ticket.id}">
-                            <button class="neumorphism-button assign-btn mr-2" ${ticket.assigned_to || ticket.status === 'Closed' ? 'disabled' : ''}>Assign</button>
-                            <button class="neumorphism-button close-btn" ${ticket.status === 'Closed' ? 'disabled' : ''}>Close</button>
+                        <td class="space-y-2">
+                            <div class="flex items-center space-x-2">
+                                <select class="assign-select neumorphism-select w-full" ${ticket.status === 'Closed' ? 'disabled' : ''}>
+                                    <option value="">Assign to...</option>
+                                    ${staffOptions}
+                                </select>
+                                <button class="neumorphism-button assign-btn" ${ticket.status === 'Closed' ? 'disabled' : ''}>Assign</button>
+                            </div>
+                            <button class="neumorphism-button close-btn w-full" ${ticket.status === 'Closed' ? 'disabled' : ''}>Close</button>
                         </td>
                     </tr>
                 `).join('');
             }
 
-            async function assignTicket(ticketId) {
+            async function assignTicket(ticketId, assigneeId) {
+                if (!assigneeId) {
+                    alert('Please select a staff member to assign the ticket.');
+                    return;
+                }
+
                 try {
-                    const response = await fetch(`/api/tickets/${ticketId}/assign`, { method: 'PUT' });
-                    if (!response.ok) throw new Error('Failed to assign the ticket.');
+                    const response = await fetch(`/api/tickets/${ticketId}/assign`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ assignee_id: assigneeId })
+                    });
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        throw new Error(errorData.error || 'Failed to assign the ticket.');
+                    }
                     const data = await response.json();
 
-                    // Visually update the row
-                    const row = document.querySelector(`td[data-ticket-id='${ticketId}']`).parentNode;
+                    const row = document.querySelector(`tr[data-ticket-id='${ticketId}']`);
                     row.querySelector('.assigned-to').textContent = data.assigned_to;
-                    row.querySelector('.assign-btn').disabled = true;
                 } catch (error) {
                     alert(error.message);
                 }
@@ -128,12 +164,12 @@
                     const response = await fetch(`/api/tickets/${ticketId}/close`, { method: 'PUT' });
                     if (!response.ok) throw new Error('Failed to close the ticket.');
 
-                    const row = document.querySelector(`td[data-ticket-id='${ticketId}']`).parentNode;
-                    const statusSpan = row.querySelector('span');
+                    const row = document.querySelector(`tr[data-ticket-id='${ticketId}']`);
+                    const statusSpan = row.querySelector('.status-span');
                     statusSpan.textContent = 'Closed';
                     statusSpan.classList.remove('text-green-700', 'bg-green-100');
                     statusSpan.classList.add('text-red-700', 'bg-red-100');
-                    row.querySelectorAll('button').forEach(btn => btn.disabled = true);
+                    row.querySelectorAll('button, select').forEach(el => el.disabled = true);
                 } catch (error) {
                     alert(error.message);
                 }
@@ -141,18 +177,27 @@
 
             ticketQueue.addEventListener('click', (event) => {
                 const target = event.target;
-                const ticketId = target.closest('td').dataset.ticketId;
+                const row = target.closest('tr');
+                if (!row) return;
+
+                const ticketId = row.dataset.ticketId;
 
                 if (target.classList.contains('close-btn')) {
                     if (confirm(`Are you sure you want to close ticket #${ticketId}?`)) {
                         closeTicket(ticketId);
                     }
                 } else if (target.classList.contains('assign-btn')) {
-                    assignTicket(ticketId);
+                    const select = row.querySelector('.assign-select');
+                    assignTicket(ticketId, select.value);
                 }
             });
 
-            fetchTickets();
+            async function initialize() {
+                await fetchItStaff();
+                await fetchTickets();
+            }
+
+            initialize();
         });
     </script>
 </body>
