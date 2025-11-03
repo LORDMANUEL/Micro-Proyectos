@@ -7,7 +7,7 @@
 ## Proyectos en esta Colección
 
 1.  [**Sistema FIFO de Tickets para TI**](#1-sistema-fifo-de-tickets-para-ti) *(Completado)*
-2.  **Analizador de Red con OSINT e IA** *(Pendiente)*
+2.  [**Analizador de Red con OSINT e IA**](#2-analizador-de-red-con-osint-e-ia) *(Completado)*
 3.  **Creador de Correos Profesionales con IA** *(Pendiente)*
 4.  **Convertidor de Lenguaje Natural a SQL** *(Pendiente)*
 5.  **Reproductor de Vídeos Minimalista** *(Pendiente)*
@@ -84,5 +84,59 @@ Para que la categorización automática funcione, el sistema necesita conectarse
     export OLLAMA_API_URL="http://localhost:11434/api/generate"
     export OLLAMA_MODEL="llama2" # o el modelo que prefieras
     ```
+---
+
+## 2. Analizador de Red con OSINT e IA
+
+Esta herramienta proporciona un análisis de OSINT (Inteligencia de Fuentes Abiertas) para cualquier dirección IP. Simplemente introduce una IP y la aplicación recopilará datos de geolocalización, información del proveedor de servicios de internet (ISP) y registros WHOIS. Luego, utiliza IA para generar un resumen en lenguaje natural sobre el posible uso o tipo de dispositivo asociado a esa IP.
+
+![Captura de pantalla del Analizador de Red](https://i.imgur.com/8aZ3j4M.png)
+
+### ✨ Características Principales
+
+-   **Análisis OSINT Completo:** Recopila geolocalización, datos del ISP y WHOIS.
+-   **Resumen con IA:** Utiliza **Ollama** para interpretar los datos técnicos y ofrecer una conclusión fácil de entender.
+-   **Interfaz Limpia y Reactiva:** La página muestra los resultados de forma organizada, con un indicador de carga mientras se realiza el análisis.
+-   **Diseño Coherente:** Mantiene el estilo neumorfista con **Tailwind CSS** del resto de la suite.
+-   **Instalación Modular:** Incluye su propio script de instalación que se integra con el entorno virtual principal.
+
+### 🛠️ Stack Tecnológico
+
+-   **Backend:** Python con **Flask**.
+-   **Frontend:** HTML, CSS y JavaScript.
+-   **Librerías Clave:** `requests` (para APIs externas) y `python-whois`.
+-   **IA:** Integración con **Ollama** para la generación de resúmenes.
+
+### 🚀 Instalación y Ejecución
+
+#### Prerrequisitos
+
+-   Haber instalado el primer proyecto (`Sistema de Tickets`) para tener el entorno virtual principal.
+
+#### Pasos de Instalación
+
+1.  **Dale permisos de ejecución** al script de instalación:
+    ```bash
+    chmod +x network_analyzer/install.sh
+    ```
+2.  **Ejecuta el script**:
+    ```bash
+    ./network_analyzer/install.sh
+    ```
+    Este script instalará las dependencias específicas de este proyecto dentro del entorno virtual ya existente.
+
+#### Cómo Iniciar la Aplicación
+
+1.  **Activa el entorno virtual** (desde la raíz del repositorio):
+    ```bash
+    source venv/bin/activate
+    ```
+2.  **Inicia el servidor de Flask**:
+    ```bash
+    python3 network_analyzer/backend/app.py
+    ```
+3.  **Accede a la aplicación**:
+    -   Abre tu navegador y ve a `http://127.0.0.1:5001/`
+
 ---
 *Las secciones para los próximos proyectos se completarán a medida que se desarrollen.*
