@@ -8,7 +8,7 @@
 
 1.  [**Sistema FIFO de Tickets para TI**](#1-sistema-fifo-de-tickets-para-ti) *(Completado)*
 2.  [**Analizador de Red con OSINT e IA**](#2-analizador-de-red-con-osint-e-ia) *(Completado)*
-3.  **Creador de Correos Profesionales con IA** *(Pendiente)*
+3.  [**Creador de Correos Profesionales con IA**](#3-creador-de-correos-profesionales-con-ia) *(Completado)*
 4.  **Convertidor de Lenguaje Natural a SQL** *(Pendiente)*
 5.  **Reproductor de Vídeos Minimalista** *(Pendiente)*
 6.  **Compartidor de Archivos en Red Local** *(Pendiente)*
@@ -137,6 +137,59 @@ Esta herramienta proporciona un análisis de OSINT (Inteligencia de Fuentes Abie
     ```
 3.  **Accede a la aplicación**:
     -   Abre tu navegador y ve a `http://127.0.0.1:5001/`
+
+---
+
+## 3. Creador de Correos Profesionales con IA
+
+Esta herramienta te ayuda a redactar correos electrónicos profesionales en segundos. Simplemente proporciona el contexto: a quién va dirigido, cuál es el objetivo, el tono deseado y los puntos clave a incluir. La IA se encargará de generar un borrador de correo coherente y bien estructurado, listo para ser copiado y utilizado.
+
+![Captura de pantalla del Generador de Correos](https://i.imgur.com/placeholder.png) <!-- Placeholder image -->
+
+### ✨ Características Principales
+
+-   **Generación Basada en Contexto:** Define el destinatario, objetivo, tono y puntos clave para guiar a la IA.
+-   **Interfaz Intuitiva:** Un formulario claro y conciso hace que sea muy fácil de usar.
+-   **Copia Rápida:** Un botón de "Copiar" permite llevar el texto generado a tu cliente de correo con un solo clic.
+-   **Diseño Coherente:** Mantiene el estilo neumorfista con **Tailwind CSS**.
+-   **Manejo de Errores Inteligente:** Si la IA no está disponible, la aplicación genera un correo de ejemplo para que la interfaz siga siendo funcional.
+
+### 🛠️ Stack Tecnológico
+
+-   **Backend:** Python con **Flask**.
+-   **Frontend:** HTML, CSS y JavaScript.
+-   **IA:** Integración con **Ollama** para la generación de texto.
+
+### 🚀 Instalación y Ejecución
+
+#### Prerrequisitos
+
+-   Haber instalado el primer proyecto (`Sistema de Tickets`) para tener el entorno virtual principal.
+
+#### Pasos de Instalación
+
+1.  **Dale permisos de ejecución** al script de instalación:
+    ```bash
+    chmod +x email_generator/install.sh
+    ```
+2.  **Ejecuta el script**:
+    ```bash
+    ./email_generator/install.sh
+    ```
+    Este script instalará las dependencias de este proyecto en el entorno virtual existente.
+
+#### Cómo Iniciar la Aplicación
+
+1.  **Activa el entorno virtual** (desde la raíz del repositorio):
+    ```bash
+    source venv/bin/activate
+    ```
+2.  **Inicia el servidor de Flask**:
+    ```bash
+    python3 email_generator/backend/app.py
+    ```
+3.  **Accede a la aplicación**:
+    -   Abre tu navegador y ve a `http://127.0.0.1:5002/`
 
 ---
 *Las secciones para los próximos proyectos se completarán a medida que se desarrollen.*

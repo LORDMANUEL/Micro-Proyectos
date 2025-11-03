@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Professional Email Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .neumorphism-container { background-color: #e0e5ec; }
+        .neumorphism-card {
+            background-color: #e0e5ec;
+            border-radius: 20px;
+            box-shadow: 9px 9px 16px #a3b1c6, -9px -9px 16px #ffffff;
+            padding: 2rem;
+        }
+        .neumorphism-input, .neumorphism-select, .neumorphism-textarea {
+            width: 100%;
+            background-color: #e0e5ec;
+            border: none;
+            border-radius: 10px;
+            padding: 1rem;
+            box-shadow: inset 5px 5px 10px #a3b1c6, inset -5px -5px 10px #ffffff;
+            transition: all 0.2s ease-in-out;
+        }
+        .neumorphism-input:focus, .neumorphism-select:focus, .neumorphism-textarea:focus { outline: none; box-shadow: inset 7px 7px 14px #a3b1c6, inset -7px -7px 14px #ffffff; }
+        .neumorphism-button {
+            background-color: #e0e5ec;
+            border: none;
+            border-radius: 10px;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            color: #333;
+            box-shadow: 5px 5px 10px #a3b1c6, -5px -5px 10px #ffffff;
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+        .neumorphism-button:hover { box-shadow: 7px 7px 14px #a3b1c6, -7px -7px 14px #ffffff; }
+        .neumorphism-button:active { box-shadow: inset 5px 5px 10px #a3b1c6, inset -5px -5px 10px #ffffff; }
+        .result-box {
+            background-color: #e0e5ec;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: inset 6px 6px 12px #a3b1c6, inset -6px -6px 12px #ffffff;
+            white-space: pre-wrap; /* To respect newlines in the email */
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body class="neumorphism-container min-h-screen flex items-center justify-center p-4">
+
+    <div class="neumorphism-card w-full max-w-3xl">
+        <h1 class="text-3xl font-bold text-center text-gray-700 mb-6">AI Professional Email Generator</h1>
+
+        <form id="email-form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Column 1 -->
+            <div>
+                <label for="recipient" class="block text-gray-600 mb-2">Recipient</label>
+                <input type="text" id="recipient" class="neumorphism-input" placeholder="e.g., Project Manager" required>
+
+                <label for="objective" class="block text-gray-600 mt-4 mb-2">Objective</label>
+                <input type="text" id="objective" class="neumorphism-input" placeholder="e.g., Request a project update meeting" required>
+
+                <label for="tone" class="block text-gray-600 mt-4 mb-2">Tone</label>
+                <select id="tone" class="neumorphism-select">
+                    <option>Formal</option>
+                    <option>Friendly</option>
+                    <option>Direct</option>
+                    <option>Casual</option>
+                </select>
+            </div>
+
+            <!-- Column 2 -->
+            <div>
+                <label for="key_points" class="block text-gray-600 mb-2">Key Points to Include (one per line)</label>
+                <textarea id="key_points" rows="6" class="neumorphism-textarea" placeholder="e.g., Discuss Q3 budget results\nDefine next steps for the 'Phoenix' project\nConfirm team availability" required></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="md:col-span-2 text-center mt-4">
+                <button type="submit" id="submit-button" class="neumorphism-button">Generate Email</button>
+            </div>
+        </form>
+
+        <!-- Results Section -->
+        <div id="results-container" class="mt-8 hidden">
+            <h2 class="text-2xl font-semibold text-center text-gray-700 mb-4">Generated Email</h2>
+            <div id="result-box" class="result-box relative">
+                <p id="generated-email"></p>
+                <button id="copy-button" class="absolute top-2 right-2 neumorphism-button text-sm py-2 px-3">Copy</button>
+            </div>
+        </div>
+        <div id="loading" class="mt-4 text-center hidden"><p>Generating email...</p></div>
+        <div id="error" class="mt-4 text-center text-red-500 hidden"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('email-form');
+        const submitButton = document.getElementById('submit-button');
+        const resultsContainer = document.getElementById('results-container');
+        const loadingDiv = document.getElementById('loading');
+        const errorDiv = document.getElementById('error');
+        const generatedEmailP = document.getElementById('generated-email');
+        const copyButton = document.getElementById('copy-button');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = {
+                recipient: document.getElementById('recipient').value,
+                objective: document.getElementById('objective').value,
+                tone: document.getElementById('tone').value,
+                key_points: document.getElementById('key_points').value,
+            };
+
+            // UI feedback
+            submitButton.disabled = true;
+            loadingDiv.classList.remove('hidden');
+            resultsContainer.classList.add('hidden');
+            errorDiv.classList.add('hidden');
+
+            try {
+                const response = await fetch('/api/generate_email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData),
+                });
+
+                if (!response.ok) {
+                    const errData = await response.json();
+                    throw new Error(errData.error || 'An unknown error occurred');
+                }
+
+                const result = await response.json();
+                generatedEmailP.textContent = result.email;
+                resultsContainer.classList.remove('hidden');
+
+            } catch (err) {
+                errorDiv.textContent = `Error: ${err.message}`;
+                errorDiv.classList.remove('hidden');
+            } finally {
+                submitButton.disabled = false;
+                loadingDiv.classList.add('hidden');
+            }
+        });
+
+        copyButton.addEventListener('click', () => {
+            navigator.clipboard.writeText(generatedEmailP.textContent)
+                .then(() => {
+                    copyButton.textContent = 'Copied!';
+                    setTimeout(() => { copyButton.textContent = 'Copy'; }, 2000);
+                })
+                .catch(err => alert('Failed to copy!'));
+        });
+    </script>
+</body>
+</html>

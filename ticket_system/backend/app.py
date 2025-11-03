@@ -50,14 +50,9 @@ def categorize_ticket_with_ai(ticket_id, title, description):
         response = requests.post(OLLAMA_API_URL, headers=headers, json=data, timeout=15)
         response.raise_for_status()
 
-        # The response from Ollama is a stream of JSON objects, we need to parse the final one
-        full_response_text = response.text
-        # Split by newline and filter out empty lines
-        json_objects = [line for line in full_response_text.strip().split('\n') if line]
-        # Parse the last JSON object
-        final_json_object = json.loads(json_objects[-1])
-
-        category = final_json_object.get("response", "Other").strip()
+        # Directly parse the JSON response
+        response_data = response.json()
+        category = response_data.get("response", "Other").strip()
 
         # A simple validation to ensure the category is one of the expected ones
         valid_categories = ["Hardware", "Software", "Network", "Other"]
