@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Inventario de PCs</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Sistema de Inventario de PCs</h1>
+
+        <div class="controls">
+            <button id="add-computer-btn" class="btn">Agregar Computadora</button>
+        </div>
+
+        <div id="computer-list" class="card">
+            <!-- La lista de computadoras se insertará aquí dinámicamente -->
+        </div>
+    </div>
+
+    <!-- Modal para Agregar/Editar Computadora -->
+    <div id="form-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 id="form-title">Agregar Computadora</h2>
+            <form id="computer-form">
+                <input type="hidden" id="computer-id">
+                <input type="text" id="serial_number" placeholder="Número de Serie" required>
+                <input type="text" id="brand" placeholder="Marca">
+                <input type="text" id="model" placeholder="Modelo">
+                <input type="date" id="purchase_date" placeholder="Fecha de Compra">
+                <input type="number" id="purchase_price" placeholder="Precio de Compra">
+                <input type="text" id="status" placeholder="Estado (e.g., Activo, en Reparación)">
+                <input type="text" id="location" placeholder="Ubicación">
+                <input type="text" id="assigned_to" placeholder="Asignado a">
+                <button type="submit" class="btn">Guardar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Ver Detalles de la Computadora -->
+    <div id="details-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 id="details-title">Detalles del Equipo</h2>
+            <div id="computer-details"></div>
+            <div id="qr-code-container"></div>
+            <div id="depreciation-info"></div>
+            <h3>Software Instalado</h3>
+            <div id="software-list"></div>
+             <h3>Políticas de Uso</h3>
+            <div id="policy-list"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

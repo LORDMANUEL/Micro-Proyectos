@@ -14,7 +14,7 @@
 | 4.  | [Convertidor de Lenguaje Natural a SQL](#4-convertidor-de-lenguaje-natural-a-sql)                | ✅ Completado |
 | 5.  | [Reproductor de Vídeos Minimalista](#5-reproductor-de-v-deos-minimalista)                    | ✅ Completado |
 | 6.  | [Compartidor de Archivos en Red Local](#6-compartidor-de-archivos-en-red-local)                 | ✅ Completado |
-| 7.  | Sistema de Micro-Inventario de PCs                   | ⏳ Pendiente  |
+| 7.  | [Sistema de Micro-Inventario de PCs](#7-sistema-de-micro-inventario-de-pcs)                   | ✅ Completado |
 | 8.  | Plataforma de Gestión de Impresoras                  | ⏳ Pendiente  |
 
 ---
@@ -162,6 +162,31 @@ Esta herramienta ultra-ligera convierte tu ordenador en un servidor de archivos 
 ![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+
+---
+
+## 7. Sistema de Micro-Inventario de PCs
+
+Esta es una solución completa para la gestión de activos de TI. Permite llevar un inventario detallado de computadoras, registrar el software instalado, gestionar políticas de uso, y lo más importante, calcular la depreciación de los equipos y generar etiquetas con códigos QR para un fácil seguimiento físico.
+
+![Captura de pantalla del Sistema de Inventario](docs/images/pc_inventory.png)
+
+### ✨ Características Principales
+
+-   **💻 Gestión de Activos:** Registra computadoras con detalles como número de serie, marca, modelo, fecha y precio de compra.
+-   **📊 Cálculo de Depreciación:** Calcula automáticamente el valor contable actual de un equipo usando el método de línea recta.
+-   **║█║ Generación de Códigos QR:** Crea una imagen de código QR para cada activo, ideal para imprimir etiquetas de seguimiento.
+-   **💿 Inventario de Software:** Lleva un registro del software instalado en cada computadora.
+-   **📜 Gestión de Políticas:** Permite documentar y visualizar políticas de uso de los equipos.
+-   **🎨 Interfaz Neumorfista:** Una interfaz de usuario moderna y limpia que facilita la gestión.
+
+### 🛠️ Stack Tecnológico
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
+![SQLite](https.img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 
 ---
 

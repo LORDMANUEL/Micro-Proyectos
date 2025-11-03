@@ -13,5 +13,10 @@ venv/
 
 # Log files
 *.log
+
+# Uploads
 minimalist_video_player/uploads/
 local_file_sharer/uploads/
+
+# Node.js dependencies
+node_modules/
