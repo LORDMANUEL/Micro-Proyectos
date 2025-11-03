@@ -124,9 +124,14 @@ def get_tickets():
         db = get_db()
         tickets = db.execute(
             """
-            SELECT t.id, t.title, t.status, t.priority, t.category, t.created_at, u.username as created_by, d.name as department
+            SELECT
+                t.id, t.title, t.status, t.priority, t.category, t.created_at,
+                c.username as created_by,
+                a.username as assigned_to,
+                d.name as department
             FROM tickets t
-            JOIN users u ON t.created_by_id = u.id
+            JOIN users c ON t.created_by_id = c.id
+            LEFT JOIN users a ON t.assigned_to_id = a.id
             JOIN departments d ON t.department_id = d.id
             ORDER BY t.created_at ASC -- FIFO order
             """
@@ -136,6 +141,43 @@ def get_tickets():
         ticket_list = [dict(ticket) for ticket in tickets]
 
         return jsonify(ticket_list), 200
+    except Exception as e:
+        return jsonify({'error': f'An error occurred: {str(e)}'}), 500
+
+# API endpoint to close a ticket
+@app.route('/api/tickets/<int:ticket_id>/close', methods=['PUT'])
+def close_ticket(ticket_id):
+    try:
+        db = get_db()
+        # Also update the updated_at timestamp
+        db.execute(
+            "UPDATE tickets SET status = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
+            ('Closed', ticket_id)
+        )
+        db.commit()
+        return jsonify({'message': f'Ticket {ticket_id} closed successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': f'An error occurred: {str(e)}'}), 500
+
+# API endpoint to assign a ticket to the default admin
+@app.route('/api/tickets/<int:ticket_id>/assign', methods=['PUT'])
+def assign_ticket(ticket_id):
+    try:
+        db = get_db()
+        # Assign to the default admin user (ID = 1) and update timestamp
+        db.execute(
+            "UPDATE tickets SET assigned_to_id = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?",
+            (ticket_id,)
+        )
+        db.commit()
+
+        # Fetch the admin's username to return it in the response
+        admin_user = db.execute("SELECT username FROM users WHERE id = 1").fetchone()
+
+        return jsonify({
+            'message': f'Ticket {ticket_id} assigned to {admin_user["username"]}',
+            'assigned_to': admin_user["username"]
+        }), 200
     except Exception as e:
         return jsonify({'error': f'An error occurred: {str(e)}'}), 500
 

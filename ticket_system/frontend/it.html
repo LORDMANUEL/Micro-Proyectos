@@ -57,7 +57,7 @@
                         <th>Title</th>
                         <th>Category</th>
                         <th>Status</th>
-                        <th>Created At</th>
+                        <th>Assigned To</th>
                         <th>Created By</th>
                         <th>Department</th>
                         <th>Actions</th>
@@ -77,19 +77,17 @@
             async function fetchTickets() {
                 try {
                     const response = await fetch('/api/tickets');
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch tickets');
-                    }
+                    if (!response.ok) throw new Error('Failed to fetch tickets');
                     const tickets = await response.json();
                     renderTickets(tickets);
                 } catch (error) {
-                    ticketQueue.innerHTML = `<tr><td colspan="7" class="text-center text-red-500">${error.message}</td></tr>`;
+                    ticketQueue.innerHTML = `<tr><td colspan="8" class="text-center text-red-500">${error.message}</td></tr>`;
                 }
             }
 
             function renderTickets(tickets) {
                 if (tickets.length === 0) {
-                    ticketQueue.innerHTML = `<tr><td colspan="7" class="text-center text-gray-500">No tickets in the queue.</td></tr>`;
+                    ticketQueue.innerHTML = `<tr><td colspan="8" class="text-center text-gray-500">No tickets in the queue.</td></tr>`;
                     return;
                 }
 
@@ -98,17 +96,61 @@
                         <td>${ticket.id}</td>
                         <td>${ticket.title}</td>
                         <td>${ticket.category}</td>
-                        <td><span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-sm">${ticket.status}</span></td>
-                        <td>${new Date(ticket.created_at).toLocaleString()}</td>
+                        <td><span class="px-2 py-1 font-semibold leading-tight rounded-sm ${ticket.status === 'Closed' ? 'text-red-700 bg-red-100' : 'text-green-700 bg-green-100'}">${ticket.status}</span></td>
+                        <td class="assigned-to">${ticket.assigned_to || 'Unassigned'}</td>
                         <td>${ticket.created_by}</td>
                         <td>${ticket.department}</td>
-                        <td>
-                            <button class="neumorphism-button mr-2">Assign</button>
-                            <button class="neumorphism-button">Close</button>
+                        <td data-ticket-id="${ticket.id}">
+                            <button class="neumorphism-button assign-btn mr-2" ${ticket.assigned_to || ticket.status === 'Closed' ? 'disabled' : ''}>Assign</button>
+                            <button class="neumorphism-button close-btn" ${ticket.status === 'Closed' ? 'disabled' : ''}>Close</button>
                         </td>
                     </tr>
                 `).join('');
             }
+
+            async function assignTicket(ticketId) {
+                try {
+                    const response = await fetch(`/api/tickets/${ticketId}/assign`, { method: 'PUT' });
+                    if (!response.ok) throw new Error('Failed to assign the ticket.');
+                    const data = await response.json();
+
+                    // Visually update the row
+                    const row = document.querySelector(`td[data-ticket-id='${ticketId}']`).parentNode;
+                    row.querySelector('.assigned-to').textContent = data.assigned_to;
+                    row.querySelector('.assign-btn').disabled = true;
+                } catch (error) {
+                    alert(error.message);
+                }
+            }
+
+            async function closeTicket(ticketId) {
+                try {
+                    const response = await fetch(`/api/tickets/${ticketId}/close`, { method: 'PUT' });
+                    if (!response.ok) throw new Error('Failed to close the ticket.');
+
+                    const row = document.querySelector(`td[data-ticket-id='${ticketId}']`).parentNode;
+                    const statusSpan = row.querySelector('span');
+                    statusSpan.textContent = 'Closed';
+                    statusSpan.classList.remove('text-green-700', 'bg-green-100');
+                    statusSpan.classList.add('text-red-700', 'bg-red-100');
+                    row.querySelectorAll('button').forEach(btn => btn.disabled = true);
+                } catch (error) {
+                    alert(error.message);
+                }
+            }
+
+            ticketQueue.addEventListener('click', (event) => {
+                const target = event.target;
+                const ticketId = target.closest('td').dataset.ticketId;
+
+                if (target.classList.contains('close-btn')) {
+                    if (confirm(`Are you sure you want to close ticket #${ticketId}?`)) {
+                        closeTicket(ticketId);
+                    }
+                } else if (target.classList.contains('assign-btn')) {
+                    assignTicket(ticketId);
+                }
+            });
 
             fetchTickets();
         });

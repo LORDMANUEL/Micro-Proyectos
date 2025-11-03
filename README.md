@@ -19,7 +19,9 @@
 
 ## 1. Sistema FIFO de Tickets para TI
 
-Este es un sistema de tickets simple y ligero, diseñado para equipos de TI. Permite a los clientes enviar solicitudes de soporte y al personal de TI gestionarlas en una cola **FIFO (First-In, First-Out)**. El sistema cuenta con dos interfaces web distintas y utiliza IA para categorizar automáticamente los tickets.
+Este es un sistema de tickets simple y funcional, diseñado para equipos de TI. Permite a los clientes enviar solicitudes y al personal de TI **asignar, gestionar y cerrar** los tickets en una cola **FIFO (First-In, First-Out)**. El sistema cuenta con dos interfaces web distintas y utiliza IA para categorizar automáticamente los tickets.
+
+![Captura de pantalla del Sistema de Tickets](https://i.imgur.com/L8a1j3f.png)
 
 ### ✨ Características Principales
 
@@ -133,7 +135,7 @@ Esta herramienta proporciona un análisis de OSINT (Inteligencia de Fuentes Abie
     ```
 2.  **Inicia el servidor de Flask**:
     ```bash
-    python3 network_analyzer/backend/app.py
+    python3 -m flask --app network_analyzer.backend.app run
     ```
 3.  **Accede a la aplicación**:
     -   Abre tu navegador y ve a `http://127.0.0.1:5001/`
@@ -186,7 +188,7 @@ Esta herramienta te ayuda a redactar correos electrónicos profesionales en segu
     ```
 2.  **Inicia el servidor de Flask**:
     ```bash
-    python3 email_generator/backend/app.py
+    python3 -m flask --app email_generator.backend.app run
     ```
 3.  **Accede a la aplicación**:
     -   Abre tu navegador y ve a `http://127.0.0.1:5002/`
