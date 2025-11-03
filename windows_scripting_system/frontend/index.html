@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Scripts para Windows</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Sistema de Scripts para Windows con IA</h1>
+
+        <div class="main-layout">
+            <!-- Columna del Generador de IA -->
+            <div class="card generator-column">
+                <h2>Generador de Scripts con IA</h2>
+                <form id="generate-script-form">
+                    <textarea id="ai-prompt" placeholder="Describe el script que necesitas... (ej: bloquear puertos USB)" required></textarea>
+                    <select id="ai-script-type">
+                        <option value="powershell">PowerShell</option>
+                        <option value="batch">Batch</option>
+                    </select>
+                    <button type="submit" class="btn">Generar Script</button>
+                </form>
+                <div class="generated-script-container">
+                    <h3>Script Generado:</h3>
+                    <pre><code id="generated-script-output">Aquí aparecerá el script...</code></pre>
+                    <button id="save-generated-script-btn" class="btn" style="display:none;">Guardar en mi Repositorio</button>
+                </div>
+            </div>
+
+            <!-- Columna del Repositorio de Scripts -->
+            <div class="card repo-column">
+                <h2>Mi Repositorio de Scripts</h2>
+                <button id="show-add-script-form-btn" class="btn">Agregar Nuevo Script</button>
+                <div id="script-list">
+                    <!-- Los scripts del repositorio se cargarán aquí -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Agregar Script Manualmente -->
+    <div id="add-script-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Agregar Script al Repositorio</h2>
+            <form id="add-script-form">
+                <input type="text" id="script-title" placeholder="Título" required>
+                <textarea id="script-description" placeholder="Descripción (importante para la IA)" required></textarea>
+                <select id="script-type">
+                    <option value="powershell">PowerShell</option>
+                    <option value="batch">Batch</option>
+                </select>
+                <textarea id="script-content" placeholder="Pega aquí tu script..." required></textarea>
+                <button type="submit" class="btn">Guardar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

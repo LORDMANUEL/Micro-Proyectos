@@ -16,6 +16,10 @@
 | 6.  | [Compartidor de Archivos en Red Local](#6-compartidor-de-archivos-en-red-local)                 | ✅ Completado |
 | 7.  | [Sistema de Micro-Inventario de PCs](#7-sistema-de-micro-inventario-de-pcs)                   | ✅ Completado |
 | 8.  | [Plataforma de Gestión de Impresoras](#8-plataforma-de-gesti-n-de-impresoras)                  | ✅ Completado |
+| 9.  | Sistema de Scripts para Windows con IA               | ⏳ En Desarrollo |
+| 10. | Testeador de Diagnóstico para Windows                | ⏳ Pendiente  |
+| 11. | Módulo de Reparación de Laptops (Addon)              | ⏳ Pendiente  |
+| 12. | Plataforma de Entrenamiento RAG con Qdrant           | ⏳ Pendiente  |
 
 ---
 
@@ -179,6 +183,30 @@ Esta es una solución completa para la gestión de activos de TI. Permite llevar
 -   **💿 Inventario de Software:** Lleva un registro del software instalado en cada computadora.
 -   **📜 Gestión de Políticas:** Permite documentar y visualizar políticas de uso de los equipos.
 -   **🎨 Interfaz Neumorfista:** Una interfaz de usuario moderna y limpia que facilita la gestión.
+
+### 🛠️ Stack Tecnológico
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
+![SQLite](https.img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+
+---
+
+## 9. Sistema de Scripts para Windows con IA
+
+Esta herramienta actúa como un repositorio centralizado para scripts de Windows (PowerShell, Batch) y un asistente inteligente para la creación de nuevos scripts. Permite a los administradores de sistemas guardar, gestionar y reutilizar sus scripts, y utilizar la IA para generar nuevos scripts a partir de descripciones en lenguaje natural, usando el conocimiento del repositorio existente para mejorar la precisión.
+
+![Captura de pantalla del Sistema de Scripts](docs/images/scripting_system.png)
+
+### ✨ Características Principales
+
+-   **🗄️ Repositorio Centralizado:** Guarda y gestiona tus scripts de PowerShell y Batch en un solo lugar.
+-   **🤖 Generación de Scripts con IA:** Describe lo que necesitas en lenguaje natural y la IA (Ollama) generará el script.
+-   **🧠 Lógica RAG (Retrieval-Augmented Generation):** La IA utiliza los scripts de tu repositorio como contexto para crear soluciones más precisas y consistentes.
+-   **💾 Guardado Inteligente:** Guarda los scripts generados por la IA directamente en tu repositorio con un solo clic.
+-   **🎨 Interfaz de Doble Panel:** Un diseño eficiente que te permite generar scripts y ver tu repositorio al mismo tiempo.
 
 ### 🛠️ Stack Tecnológico
 
