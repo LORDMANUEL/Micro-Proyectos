@@ -12,7 +12,7 @@
 | 2.  | [Analizador de Red con OSINT e IA](#2-analizador-de-red-con-osint-e-ia) | ✅ Completado |
 | 3.  | [Creador de Correos Profesionales con IA](#3-creador-de-correos-profesionales-con-ia)            | ✅ Completado |
 | 4.  | [Convertidor de Lenguaje Natural a SQL](#4-convertidor-de-lenguaje-natural-a-sql)                | ✅ Completado |
-| 5.  | Reproductor de Vídeos Minimalista                    | ⏳ Pendiente  |
+| 5.  | [Reproductor de Vídeos Minimalista](#5-reproductor-de-v-deos-minimalista)                    | ✅ Completado |
 | 6.  | Compartidor de Archivos en Red Local                 | ⏳ Pendiente  |
 | 7.  | Sistema de Micro-Inventario de PCs                   | ⏳ Pendiente  |
 | 8.  | Plataforma de Gestión de Impresoras                  | ⏳ Pendiente  |
@@ -23,7 +23,7 @@
 
 Este es un sistema de tickets simple y funcional, diseñado para equipos de TI. Permite a los clientes enviar solicitudes y al personal de TI **asignar, gestionar y cerrar** los tickets en una cola **FIFO (First-In, First-Out)**. El sistema cuenta con dos interfaces web distintas y utiliza IA para categorizar automáticamente los tickets.
 
-![Captura de pantalla del Sistema de Tickets](https://i.imgur.com/L8a1j3f.png)
+![Captura de pantalla del Sistema de Tickets](docs/images/ticket_system.png)
 
 ### ✨ Características Principales
 
@@ -48,7 +48,7 @@ Este es un sistema de tickets simple y funcional, diseñado para equipos de TI. 
 
 Esta herramienta proporciona un análisis de OSINT (Inteligencia de Fuentes Abiertas) para cualquier dirección IP. Simplemente introduce una IP y la aplicación recopilará datos de geolocalización, información del proveedor de servicios de internet (ISP) y registros WHOIS. Luego, utiliza IA para generar un resumen en lenguaje natural sobre el posible uso o tipo de dispositivo asociado a esa IP.
 
-![Captura de pantalla del Analizador de Red](https://i.imgur.com/8aZ3j4M.png)
+![Captura de pantalla del Analizador de Red](docs/images/network_analyzer.png)
 
 ### ✨ Características Principales
 
@@ -70,7 +70,7 @@ Esta herramienta proporciona un análisis de OSINT (Inteligencia de Fuentes Abie
 
 Esta herramienta te ayuda a redactar correos electrónicos profesionales en segundos. Simplemente proporciona el contexto: a quién va dirigido, cuál es el objetivo, el tono deseado y los puntos clave a incluir. La IA se encargará de generar un borrador de correo coherente y bien estructurado, listo para ser copiado y utilizado.
 
-![Captura de pantalla del Generador de Correos](https://i.imgur.com/T0g0a2n.png)
+![Captura de pantalla del Generador de Correos](docs/images/email_generator.png)
 
 ### ✨ Características Principales
 
@@ -92,7 +92,7 @@ Esta herramienta te ayuda a redactar correos electrónicos profesionales en segu
 
 Esta herramienta traduce preguntas en lenguaje natural (como *"muéstrame todos los clientes de EE. UU."*) a consultas SQL ejecutables. Interactúa directamente con una base de datos de ejemplo (basada en el esquema de SAP B1) y muestra los resultados en una tabla. Es ideal para usuarios que no conocen la sintaxis de SQL pero necesitan consultar una base de datos.
 
-![Captura de pantalla del Traductor de SQL](https://i.imgur.com/gY9pE4R.png)
+![Captura de pantalla del Traductor de SQL](docs/images/sql_translator.png)
 
 ### ✨ Características Principales
 
@@ -108,6 +108,37 @@ Esta herramienta traduce preguntas en lenguaje natural (como *"muéstrame todos 
 ![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
 ![SQLite](https.img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+
+---
+
+## 5. Reproductor de Vídeos Minimalista
+
+Este proyecto es una solución de señalización digital ligera y fácil de usar. Permite subir contenido multimedia (videos, imágenes, HTML) y organizarlo en listas de reproducción. Cada lista tiene una URL única que puede ser abierta en cualquier navegador para mostrar el contenido en bucle, ideal para cartelería digital, banners o presentaciones.
+
+![Captura de pantalla del Reproductor Minimalista](docs/images/minimalist_player.png)
+
+### 📜 Visión, Misión y Propósito
+
+*   **Visión:** Ser la herramienta de referencia para la señalización digital simple, donde cualquier persona, sin conocimientos técnicos, pueda crear y gestionar contenido visual de forma rápida y autónoma.
+*   **Misión:** Proporcionar una plataforma de código abierto que sea minimalista, fácil de instalar y mantener, y lo suficientemente flexible para adaptarse a necesidades básicas de comunicación visual en empresas, eventos o espacios personales.
+*   **Propósito:** Democratizar el acceso a la cartelería digital. En lugar de depender de software costoso y complejo, este proyecto busca ofrecer una alternativa gratuita y funcional que empodere a los usuarios para comunicar sus ideas visualmente.
+
+### ✨ Características Principales
+
+-   **🗂️ Panel de Control Centralizado:** Sube y gestiona todos tus archivos multimedia desde un único lugar.
+-   **✨ Creación Intuitiva de Playlists:** Arrastra y suelta archivos para crear y ordenar listas de reproducción.
+-   **🔗 URLs de Reproducción Únicas:** Cada lista de reproducción genera un enlace público para una fácil visualización.
+-   **🤖 Generación de Contenido con IA:** Usa IA para crear páginas HTML simples a partir de texto, que se añaden directamente a tu librería.
+-   **🎨 Reproductor Minimalista:** El reproductor público se centra en el contenido, con fondos de colores sólidos (rojo, azul, blanco) para evitar distracciones.
+-   **🔄 Reproducción en Bucle:** El contenido de la lista se reproduce de forma continua, ideal para un uso desatendido.
+
+### 🛠️ Stack Tecnológico
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
+![SQLite](https.img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
 ---
 
