@@ -11,7 +11,7 @@
 | 1.  | [Sistema FIFO de Tickets para TI](#1-sistema-fifo-de-tickets-para-ti)                      | ✅ Completado |
 | 2.  | [Analizador de Red con OSINT e IA](#2-analizador-de-red-con-osint-e-ia) | ✅ Completado |
 | 3.  | [Creador de Correos Profesionales con IA](#3-creador-de-correos-profesionales-con-ia)            | ✅ Completado |
-| 4.  | Convertidor de Lenguaje Natural a SQL                | ⏳ Pendiente  |
+| 4.  | [Convertidor de Lenguaje Natural a SQL](#4-convertidor-de-lenguaje-natural-a-sql)                | ✅ Completado |
 | 5.  | Reproductor de Vídeos Minimalista                    | ⏳ Pendiente  |
 | 6.  | Compartidor de Archivos en Red Local                 | ⏳ Pendiente  |
 | 7.  | Sistema de Micro-Inventario de PCs                   | ⏳ Pendiente  |
@@ -87,4 +87,28 @@ Esta herramienta te ayuda a redactar correos electrónicos profesionales en segu
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
 ---
+
+## 4. Convertidor de Lenguaje Natural a SQL
+
+Esta herramienta traduce preguntas en lenguaje natural (como *"muéstrame todos los clientes de EE. UU."*) a consultas SQL ejecutables. Interactúa directamente con una base de datos de ejemplo (basada en el esquema de SAP B1) y muestra los resultados en una tabla. Es ideal para usuarios que no conocen la sintaxis de SQL pero necesitan consultar una base de datos.
+
+![Captura de pantalla del Traductor de SQL](https://i.imgur.com/gY9pE4R.png)
+
+### ✨ Características Principales
+
+-   **🌐 Interfaz Web Intuitiva:** Un diseño limpio y neumorfista para una fácil interacción.
+-   **🤖 Traducción con IA:** Utiliza **Ollama** para convertir el lenguaje natural en consultas SQL.
+-   **📊 Visualización de Datos:** Muestra los resultados de la consulta en una tabla dinámica.
+-   **⚙️ Contexto de Base de Datos:** Envía el esquema de la base de datos a la IA para obtener consultas más precisas.
+-   ** fallback Inteligente:** Si la IA no está disponible, ejecuta una consulta de ejemplo.
+
+### 🛠️ Stack Tecnológico
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
+![SQLite](https.img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+
+---
+
 *Las secciones para los próximos proyectos se completarán a medida que se desarrollen.*
