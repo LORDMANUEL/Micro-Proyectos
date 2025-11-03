@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma de Gestión de Impresoras</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Gestión de Impresoras</h1>
+
+        <div class="controls">
+            <button id="add-printer-btn" class="btn">Agregar Impresora</button>
+            <button id="manage-toner-btn" class="btn">Gestionar Tóners</button>
+        </div>
+
+        <div id="printer-list" class="card">
+            <!-- La lista de impresoras se insertará aquí -->
+        </div>
+    </div>
+
+    <!-- Modal para Agregar/Editar Impresora -->
+    <div id="printer-form-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Agregar Impresora</h2>
+            <form id="printer-form">
+                <input type="text" id="name" placeholder="Nombre Descriptivo" required>
+                <input type="text" id="model" placeholder="Modelo" required>
+                <input type="text" id="ip_address" placeholder="Dirección IP">
+                <input type="text" id="location" placeholder="Ubicación">
+                <input type="date" id="purchase_date">
+                <input type="number" id="purchase_price" placeholder="Precio de Compra">
+                <input type="text" id="driver_url" placeholder="URL del Driver">
+                <textarea id="notes" placeholder="Notas adicionales"></textarea>
+                <button type="submit" class="btn">Guardar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Gestionar Tóners -->
+    <div id="toner-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Gestionar Tóners</h2>
+
+            <div id="toner-inventory-list" class="card"></div>
+
+            <h3>Agregar Nuevo Tipo de Tóner</h3>
+            <form id="toner-cartridge-form">
+                <input type="text" id="toner-model" placeholder="Modelo del Tóner" required>
+                <input type="text" id="toner-color" placeholder="Color" required>
+                <input type="number" id="toner-yield" placeholder="Rendimiento (páginas)">
+                <button type="submit" class="btn">Agregar Tipo</button>
+            </form>
+
+            <h3>Añadir al Inventario</h3>
+            <form id="toner-inventory-form">
+                <select id="inventory-toner-select"></select>
+                <input type="number" id="inventory-quantity" placeholder="Cantidad" required>
+                <button type="submit" class="btn">Añadir Stock</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Ver Detalles de la Impresora -->
+    <div id="details-modal" class="modal" style="display:none;">
+        <div class="modal-content-lg">
+            <span class="close-btn">&times;</span>
+            <h2 id="details-title"></h2>
+            <div id="printer-details"></div>
+
+            <h3>Análisis con IA</h3>
+            <div id="ai-analysis" class="card">
+                <h4>Predicción de Cambio de Tóner</h4>
+                <p id="toner-prediction">Cargando...</p>
+                <h4>Análisis de Rentabilidad</h4>
+                <p id="profitability-analysis">Cargando...</p>
+                <h4>Evaluación de Reparabilidad</h4>
+                <p id="repairability-analysis">Cargando...</p>
+            </div>
+
+            <h3>Registrar Cambio de Tóner</h3>
+            <form id="log-toner-change-form">
+                <select id="log-toner-select"></select>
+                <input type="date" id="log-change-date" required>
+                <button type="submit" class="btn">Registrar Cambio</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
