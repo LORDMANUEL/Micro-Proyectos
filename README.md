@@ -13,7 +13,7 @@
 | 3.  | [Creador de Correos Profesionales con IA](#3-creador-de-correos-profesionales-con-ia)            | ✅ Completado |
 | 4.  | [Convertidor de Lenguaje Natural a SQL](#4-convertidor-de-lenguaje-natural-a-sql)                | ✅ Completado |
 | 5.  | [Reproductor de Vídeos Minimalista](#5-reproductor-de-v-deos-minimalista)                    | ✅ Completado |
-| 6.  | Compartidor de Archivos en Red Local                 | ⏳ Pendiente  |
+| 6.  | [Compartidor de Archivos en Red Local](#6-compartidor-de-archivos-en-red-local)                 | ✅ Completado |
 | 7.  | Sistema de Micro-Inventario de PCs                   | ⏳ Pendiente  |
 | 8.  | Plataforma de Gestión de Impresoras                  | ⏳ Pendiente  |
 
@@ -137,6 +137,29 @@ Este proyecto es una solución de señalización digital ligera y fácil de usar
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
 ![SQLite](https.img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+
+---
+
+## 6. Compartidor de Archivos en Red Local
+
+Esta herramienta ultra-ligera convierte tu ordenador en un servidor de archivos local. Está diseñada para compartir archivos pesados de forma rápida y sencilla dentro de una misma red (Wi-Fi), sin necesidad de usar servicios en la nube o memorias USB. Simplemente arrastra un archivo a la interfaz web y obtén un enlace de descarga directo para usar en cualquier otro dispositivo de la red.
+
+![Captura de pantalla del Compartidor de Archivos](docs/images/file_sharer.png)
+
+### ✨ Características Principales
+
+-   **🚀 Subida Rápida:** Optimizado para la transferencia de archivos grandes en una red local.
+-   **✨ Interfaz Intuitiva:** Una única página con una zona de "arrastrar y soltar" para una máxima simplicidad.
+-   **🔗 Enlaces Directos:** Genera enlaces de descarga directos y fáciles de copiar.
+-   **📊 Barra de Progreso:** Muestra el progreso de la subida en tiempo real.
+-   **✅ Cero Dependencias Complejas:** No requiere bases de datos ni servicios externos, solo Flask.
+
+### 🛠️ Stack Tecnológico
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 

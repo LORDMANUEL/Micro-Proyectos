@@ -14,3 +14,4 @@ venv/
 # Log files
 *.log
 minimalist_video_player/uploads/
+local_file_sharer/uploads/

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local File Sharer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .neumorphism-container { background-color: #e0e5ec; }
+        .neumorphism-card {
+            background-color: #e0e5ec;
+            border-radius: 20px;
+            box-shadow: 9px 9px 16px #a3b1c6, -9px -9px 16px #ffffff;
+        }
+        .neumorphism-inset {
+            box-shadow: inset 5px 5px 10px #a3b1c6, inset -5px -5px 10px #ffffff;
+        }
+        .neumorphism-button {
+            background-color: #e0e5ec;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 5px 5px 10px #a3b1c6, -5px -5px 10px #ffffff;
+            transition: all 0.2s ease-in-out;
+        }
+        .neumorphism-button:active {
+            box-shadow: inset 5px 5px 10px #a3b1c6, inset -5px -5px 10px #ffffff;
+        }
+        .drop-zone {
+            border: 2px dashed #a3b1c6;
+            transition: all 0.3s ease;
+        }
+        .drop-zone.drag-over {
+            background-color: #d1d9e6;
+            border-style: solid;
+        }
+    </style>
+</head>
+<body class="neumorphism-container min-h-screen flex items-center justify-center p-4">
+
+    <div class="neumorphism-card w-full max-w-2xl p-8 text-center">
+        <h1 class="text-4xl font-bold text-gray-700">Local File Sharer</h1>
+        <p class="text-gray-500 mt-2 mb-8">Upload a file and get a shareable link for your local network.</p>
+
+        <!-- Upload Zone -->
+        <div id="drop-zone" class="drop-zone p-12 rounded-2xl cursor-pointer">
+            <input type="file" id="file-input" class="hidden">
+            <div class="flex flex-col items-center">
+                <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-4-4V7a4 4 0 014-4h4l2 2h4a2 2 0 012 2v1m-4-2l-2-2m0 0l-2 2m2-2v11"></path></svg>
+                <p class="mt-4 text-lg text-gray-600">Drag & Drop your file here or <span class="font-bold text-blue-500">click to browse</span></p>
+                <p id="file-name" class="text-gray-500 text-sm mt-2"></p>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div id="progress-container" class="w-full neumorphism-inset rounded-full h-4 mt-8 hidden">
+            <div id="progress-bar" class="bg-blue-500 h-4 rounded-full" style="width: 0%"></div>
+        </div>
+
+        <!-- Upload Button -->
+        <button id="upload-btn" class="neumorphism-button w-full py-4 mt-8 font-semibold text-lg text-gray-800 hidden">Upload File</button>
+
+        <!-- File List -->
+        <div id="file-list-container" class="mt-12 text-left">
+            <h2 class="text-2xl font-bold text-gray-700 mb-4">Shared Files</h2>
+            <div id="file-list" class="space-y-4">
+                <!-- Files will be listed here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropZone = document.getElementById('drop-zone');
+            const fileInput = document.getElementById('file-input');
+            const fileNameDisplay = document.getElementById('file-name');
+            const uploadBtn = document.getElementById('upload-btn');
+            const progressContainer = document.getElementById('progress-container');
+            const progressBar = document.getElementById('progress-bar');
+            const fileList = document.getElementById('file-list');
+
+            let selectedFile = null;
+
+            // --- Drag and Drop Logic ---
+            dropZone.addEventListener('click', () => fileInput.click());
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('drag-over');
+            });
+            dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('drag-over');
+                const file = e.dataTransfer.files[0];
+                if (file) handleFile(file);
+            });
+            fileInput.addEventListener('change', () => {
+                if (fileInput.files.length > 0) handleFile(fileInput.files[0]);
+            });
+
+            function handleFile(file) {
+                selectedFile = file;
+                fileNameDisplay.textContent = file.name;
+                uploadBtn.classList.remove('hidden');
+            }
+
+            // --- Upload Logic ---
+            uploadBtn.addEventListener('click', async () => {
+                if (!selectedFile) return;
+
+                const formData = new FormData();
+                formData.append('file', selectedFile);
+
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '/api/upload', true);
+
+                xhr.upload.onprogress = (event) => {
+                    if (event.lengthComputable) {
+                        const percentComplete = (event.loaded / event.total) * 100;
+                        progressBar.style.width = percentComplete + '%';
+                    }
+                };
+
+                xhr.onloadstart = () => {
+                    progressContainer.classList.remove('hidden');
+                    uploadBtn.disabled = true;
+                    uploadBtn.textContent = 'Uploading...';
+                };
+
+                xhr.onload = () => {
+                    if (xhr.status === 201) {
+                        fetchFiles(); // Refresh file list
+                        resetUploader();
+                    } else {
+                        const response = JSON.parse(xhr.responseText);
+                        alert(`Upload failed: ${response.error}`);
+                        resetUploader(true);
+                    }
+                };
+
+                xhr.onerror = () => {
+                     alert('An error occurred during the upload. Please try again.');
+                     resetUploader(true);
+                };
+
+                xhr.send(formData);
+            });
+
+            function resetUploader(isError = false) {
+                selectedFile = null;
+                fileInput.value = '';
+                fileNameDisplay.textContent = '';
+                uploadBtn.classList.add('hidden');
+                uploadBtn.disabled = false;
+                uploadBtn.textContent = 'Upload File';
+
+                if (!isError) {
+                    progressBar.style.width = '0%';
+                    setTimeout(() => progressContainer.classList.add('hidden'), 1000);
+                }
+            }
+
+            // --- File List Logic ---
+            async function fetchFiles() {
+                try {
+                    const response = await fetch('/api/files');
+                    const files = await response.json();
+                    renderFiles(files);
+                } catch (error) {
+                    fileList.innerHTML = `<p class="text-red-500">Could not load shared files.</p>`;
+                }
+            }
+
+            function renderFiles(files) {
+                if (files.length === 0) {
+                    fileList.innerHTML = `<p class="text-gray-500 text-center">No files have been shared yet.</p>`;
+                    return;
+                }
+                fileList.innerHTML = files.map(file => {
+                    const downloadUrl = `${window.location.origin}/files/${file.name}`;
+                    return `
+                        <div class="neumorphism-inset p-4 rounded-lg flex justify-between items-center">
+                            <div>
+                                <p class="font-bold text-gray-800">${file.name}</p>
+                                <p class="text-sm text-gray-500">${formatBytes(file.size)}</p>
+                            </div>
+                            <button class="neumorphism-button px-4 py-2" onclick="copyToClipboard('${downloadUrl}')">Copy Link</button>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            // --- Utility Functions ---
+            window.copyToClipboard = (text) => {
+                navigator.clipboard.writeText(text).then(() => {
+                    alert('Link copied to clipboard!');
+                }).catch(() => {
+                    alert('Failed to copy link.');
+                });
+            };
+
+            function formatBytes(bytes, decimals = 2) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const dm = decimals < 0 ? 0 : decimals;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+            }
+
+            // Initial load
+            fetchFiles();
+        });
+    </script>
+
+</body>
+</html>
