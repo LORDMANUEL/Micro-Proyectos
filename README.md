@@ -17,9 +17,9 @@
 | 7.  | [Sistema de Micro-Inventario de PCs](#7-sistema-de-micro-inventario-de-pcs)                   | ✅ Completado |
 | 8.  | [Plataforma de Gestión de Impresoras](#8-plataforma-de-gesti-n-de-impresoras)                  | ✅ Completado |
 | 9.  | [Sistema de Scripts para Windows con IA](#9-sistema-de-scripts-para-windows-con-ia)               | ✅ Completado |
-| 10. | Testeador de Diagnóstico para Windows                | ⏳ En Desarrollo |
-| 11. | Módulo de Reparación de Laptops (Addon)              | ⏳ Pendiente  |
-| 12. | Plataforma de Entrenamiento RAG con Qdrant           | ⏳ Pendiente  |
+| 10. | [Testeador de Diagnóstico para Windows](#10-testeador-de-diagn-stico-para-windows)                | ✅ Completado |
+| 11. | [Sistema de Reparación de Laptops](#11-sistema-de-reparaci-n-de-laptops)              | ✅ Completado  |
+| 12. | [Plataforma de Entrenamiento RAG con Qdrant](#12-plataforma-de-entrenamiento-rag-con-qdrant)           | ✅ Completado  |
 
 ---
 
@@ -120,12 +120,6 @@ Esta herramienta traduce preguntas en lenguaje natural (como *"muéstrame todos 
 Este proyecto es una solución de señalización digital ligera y fácil de usar. Permite subir contenido multimedia (videos, imágenes, HTML) y organizarlo en listas de reproducción. Cada lista tiene una URL única que puede ser abierta en cualquier navegador para mostrar el contenido en bucle, ideal para cartelería digital, banners o presentaciones.
 
 ![Captura de pantalla del Reproductor Minimalista](docs/images/minimalist_player.png)
-
-### 📜 Visión, Misión y Propósito
-
-*   **Visión:** Ser la herramienta de referencia para la señalización digital simple, donde cualquier persona, sin conocimientos técnicos, pueda crear y gestionar contenido visual de forma rápida y autónoma.
-*   **Misión:** Proporcionar una plataforma de código abierto que sea minimalista, fácil de instalar y mantener, y lo suficientemente flexible para adaptarse a necesidades básicas de comunicación visual en empresas, eventos o espacios personales.
-*   **Propósito:** Democratizar el acceso a la cartelería digital. En lugar de depender de software costoso y complejo, este proyecto busca ofrecer una alternativa gratuita y funcional que empodere a los usuarios para comunicar sus ideas visualmente.
 
 ### ✨ Características Principales
 
@@ -235,6 +229,77 @@ Esta herramienta utiliza la IA para actuar como un asistente de diagnóstico exp
 
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+
+---
+
+## 11. Sistema de Reparación de Laptops
+
+Este es un sistema de seguimiento de reparaciones de laptops, diseñado para pequeños talleres o técnicos independientes. Permite registrar órdenes de reparación, asignar técnicos, actualizar el estado de la reparación y mantener un historial de notas.
+
+![Captura de pantalla del Sistema de Reparación de Laptops](docs/images/laptop_repair_system.png)
+
+### ✨ Características Principales
+
+-   **📝 Gestión de Órdenes de Reparación:** Crea, actualiza y elimina órdenes de reparación con información del cliente, del equipo y del problema.
+-   **👨‍💻 Asignación de Técnicos:** Asigna técnicos a las órdenes de reparación para un seguimiento claro.
+-   **🔄 Seguimiento de Estado:** Gestiona el estado de la reparación con un flujo de trabajo claro: `Pendiente de Diagnóstico`, `Piezas Pedidas`, `En Reparación`, `Completado` o `No Reparable`.
+-   **🗒️ Notas de Técnico:** Permite a los técnicos añadir notas detalladas sobre el diagnóstico y el progreso de la reparación.
+-   **🎨 Interfaz Neumorfista:** Una interfaz de usuario moderna y limpia que facilita la gestión.
+
+### 🛠️ Stack Tecnológico
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
+![SQLite](https.img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+
+---
+
+## 12. Plataforma de Entrenamiento RAG con Qdrant
+
+Esta plataforma permite a los usuarios "chatear" con sus propios documentos. Simplemente sube un archivo (PDF o TXT) y el sistema lo procesará, lo almacenará en una base de datos de vectores (Qdrant) y te permitirá hacer preguntas en lenguaje natural sobre su contenido. Es una implementación completa de un sistema de Generación Aumentada por Recuperación (RAG).
+
+![Captura de pantalla de la Plataforma RAG](docs/images/rag_platform.png)
+
+### ✨ Características Principales
+
+-   **📚 Soporte para Múltiples Formatos:** Sube archivos `.txt` y `.pdf` para procesarlos.
+-   **🧠 Generación de Embeddings:** Utiliza un modelo de `sentence-transformers` para convertir el texto en vectores.
+-   **💾 Almacenamiento Vectorial:** Almacena los vectores en una base de datos Qdrant para una búsqueda de similitud eficiente.
+-   **💬 Interfaz de Chat:** Haz preguntas en lenguaje natural y obtén respuestas generadas por una IA (Ollama) que utiliza el contenido de tus documentos como contexto.
+-   **🐳 Orquestación con Docker:** Incluye un archivo `docker-compose.yml` para ejecutar fácilmente la base de datos Qdrant.
+
+### 🛠️ Stack Tecnológico
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
+![Qdrant](https://img.shields.io/badge/Qdrant-FF4A00?style=for-the-badge&logo=qdrant&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+
+## 8. Plataforma de Gestión de Impresoras
+
+Esta herramienta centraliza la gestión de impresoras en una organización. Permite registrar impresoras con su ubicación, modelo, estado (propia o alquilada) y los consumibles que utiliza. La característica más destacada es una función de validación que genera una página de prueba con un código único y solicita al usuario que lo introduzca para confirmar que la impresora funciona correctamente.
+
+![Captura de pantalla de la Plataforma de Impresoras](docs/images/printer_platform.png)
+
+### ✨ Características Principales
+
+-   **🖨️ Inventario Centralizado:** Registra y gestiona todas las impresoras de la organización desde un único panel.
+-   **✅ Validación de Impresoras:** Genera una página de prueba con un código para verificar la funcionalidad de la impresora.
+-   **📦 Gestión de Consumibles:** Lleva un registro de los consumibles (tóner, tinta, etc.) asociados a cada modelo de impresora.
+-   **🏢 Gestión de Ubicaciones:** Organiza las impresoras por ubicación física para una fácil localización.
+-   **🎨 Interfaz Intuitiva:** Un diseño limpio y funcional que facilita la adición y gestión de impresoras.
+
+### 🛠️ Stack Tecnológico
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
+![SQLite](https.img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 

@@ -3,181 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Professional Email Generator</title>
+    <title>Email Generator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .neumorphism-container { background-color: #e0e5ec; }
         .neumorphism-card {
             background-color: #e0e5ec;
             border-radius: 20px;
             box-shadow: 9px 9px 16px #a3b1c6, -9px -9px 16px #ffffff;
             padding: 2rem;
         }
-        .neumorphism-input, .neumorphism-select, .neumorphism-textarea {
-            width: 100%;
+        .neumorphism-input {
             background-color: #e0e5ec;
             border: none;
-            border-radius: 10px;
-            padding: 1rem;
-            box-shadow: inset 5px 5px 10px #a3b1c6, inset -5px -5px 10px #ffffff;
-            transition: all 0.2s ease-in-out;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            box-shadow: inset 4px 4px 8px #a3b1c6, inset -4px -4px 8px #ffffff;
         }
-        .neumorphism-input:focus, .neumorphism-select:focus, .neumorphism-textarea:focus { outline: none; box-shadow: inset 7px 7px 14px #a3b1c6, inset -7px -7px 14px #ffffff; }
         .neumorphism-button {
             background-color: #e0e5ec;
             border: none;
-            border-radius: 10px;
-            padding: 1rem 2rem;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
             font-weight: 600;
             color: #333;
-            box-shadow: 5px 5px 10px #a3b1c6, -5px -5px 10px #ffffff;
+            box-shadow: 4px 4px 8px #a3b1c6, -4px -4px 8px #ffffff;
             transition: all 0.2s ease-in-out;
-            cursor: pointer;
         }
-        .neumorphism-button:hover { box-shadow: 7px 7px 14px #a3b1c6, -7px -7px 14px #ffffff; }
-        .neumorphism-button:active, .neumorphism-button:disabled {
-            box-shadow: inset 5px 5px 10px #a3b1c6, inset -5px -5px 10px #ffffff;
-            opacity: 0.7;
-        }
-        .result-box {
-            background-color: #e0e5ec;
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: inset 6px 6px 12px #a3b1c6, inset -6px -6px 12px #ffffff;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            min-height: 150px;
-        }
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3498db;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 2s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .neumorphism-button:hover {
+            box-shadow: 6px 6px 12px #a3b1c6, -6px -6px 12px #ffffff;
         }
     </style>
 </head>
-<body class="neumorphism-container min-h-screen flex items-center justify-center p-4">
+<body class="bg-[#e0e5ec] min-h-screen p-8">
 
-    <div class="neumorphism-card w-full max-w-4xl">
-        <h1 class="text-3xl font-bold text-center text-gray-700 mb-8">AI Professional Email Generator</h1>
-
-        <form id="email-form" class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Column 1 -->
-            <div class="space-y-6">
-                <div>
-                    <label for="recipient" class="block text-gray-600 mb-2 font-semibold">Recipient</label>
-                    <input type="text" id="recipient" class="neumorphism-input" placeholder="e.g., Project Manager" required>
-                </div>
-                <div>
-                    <label for="objective" class="block text-gray-600 mb-2 font-semibold">Objective</label>
-                    <input type="text" id="objective" class="neumorphism-input" placeholder="e.g., Request a project update meeting" required>
-                </div>
-                <div>
-                    <label for="tone" class="block text-gray-600 mb-2 font-semibold">Tone</label>
-                    <select id="tone" class="neumorphism-select">
-                        <option>Formal</option>
-                        <option selected>Friendly</option>
-                        <option>Direct</option>
-                        <option>Casual</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Column 2 -->
-            <div>
-                <label for="key_points" class="block text-gray-600 mb-2 font-semibold">Key Points to Include (one per line)</label>
-                <textarea id="key_points" rows="9" class="neumorphism-textarea" placeholder="e.g., Discuss Q3 budget results&#10;Define next steps for the 'Phoenix' project&#10;Confirm team availability" required></textarea>
-            </div>
-
-            <!-- Submit Button -->
-            <div class="md:col-span-2 text-center mt-4">
-                <button type="submit" id="submit-button" class="neumorphism-button">Generate Email</button>
-            </div>
-        </form>
-
-        <!-- Loading Indicator -->
-        <div id="loading" class="mt-8 justify-center items-center hidden">
-            <div class="loader"></div>
-            <p class="ml-4 text-gray-600">Generating email, please wait...</p>
-        </div>
-
-        <!-- Results Section -->
-        <div id="results-container" class="mt-8 hidden">
-            <h2 class="text-2xl font-semibold text-center text-gray-700 mb-4">Generated Email</h2>
-            <div id="result-box" class="result-box relative">
-                <p id="generated-email"></p>
-                <button id="copy-button" class="absolute top-3 right-3 neumorphism-button text-sm py-2 px-3">Copy</button>
+    <div class="container mx-auto">
+        <div class="neumorphism-card mb-8">
+            <h1 class="text-3xl font-bold text-center text-gray-700 mb-6">Professional Email Generator</h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <input type="text" id="to-input" class="neumorphism-input" placeholder="To">
+                <input type="text" id="subject-input" class="neumorphism-input" placeholder="Subject">
+                <textarea id="prompt-input" class="neumorphism-input md:col-span-2" placeholder="Prompt"></textarea>
+                <button id="generate-btn" class="neumorphism-button md:col-span-2 justify-self-center">Generate Email</button>
             </div>
         </div>
 
-        <div id="error" class="mt-4 text-center text-red-500 hidden"></div>
+        <div id="email-card" class="neumorphism-card hidden">
+            <h2 class="text-2xl font-bold text-center text-gray-700 mb-6">Generated Email</h2>
+            <div class="bg-gray-200 p-4 rounded">
+                <p id="email-output"></p>
+            </div>
+            <button id="copy-btn" class="neumorphism-button mt-4">Copy</button>
+        </div>
     </div>
 
     <script>
-        const form = document.getElementById('email-form');
-        const submitButton = document.getElementById('submit-button');
-        const resultsContainer = document.getElementById('results-container');
-        const loadingDiv = document.getElementById('loading');
-        const errorDiv = document.getElementById('error');
-        const generatedEmailP = document.getElementById('generated-email');
-        const copyButton = document.getElementById('copy-button');
+        document.getElementById('generate-btn').addEventListener('click', async () => {
+            const to = document.getElementById('to-input').value;
+            const subject = document.getElementById('subject-input').value;
+            const promptText = document.getElementById('prompt-input').value;
+            const emailCard = document.getElementById('email-card');
+            const emailOutput = document.getElementById('email-output');
 
-        form.addEventListener('submit', async (event) => {
-            event.preventDefault();
-
-            const formData = {
-                recipient: document.getElementById('recipient').value,
-                objective: document.getElementById('objective').value,
-                tone: document.getElementById('tone').value,
-                key_points: document.getElementById('key_points').value,
-            };
-
-            // UI feedback
-            submitButton.disabled = true;
-            submitButton.textContent = 'Generating...';
-            loadingDiv.style.display = 'flex'; // Show loader
-            resultsContainer.classList.add('hidden');
-            errorDiv.classList.add('hidden');
+            const fullPrompt = `To: ${to}\nSubject: ${subject}\n\n${promptText}`;
 
             try {
-                const response = await fetch('/api/generate_email', {
+                const response = await fetch('/api/generate', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData),
+                    body: JSON.stringify({ prompt: fullPrompt }),
                 });
 
-                if (!response.ok) {
-                    const errData = await response.json();
-                    throw new Error(errData.error || 'An unknown error occurred');
+                const data = await response.json();
+
+                if (response.ok) {
+                    emailOutput.textContent = data.email;
+                    emailCard.classList.remove('hidden');
+                } else {
+                    throw new Error(data.error);
                 }
-
-                const result = await response.json();
-                generatedEmailP.textContent = result.email;
-                resultsContainer.classList.remove('hidden');
-
-            } catch (err) {
-                errorDiv.textContent = `Error: ${err.message}`;
-                errorDiv.classList.remove('hidden');
-            } finally {
-                submitButton.disabled = false;
-                submitButton.textContent = 'Generate Email';
-                loadingDiv.style.display = 'none'; // Hide loader
+            } catch (error) {
+                alert(`Error: ${error.message}`);
             }
         });
 
-        copyButton.addEventListener('click', () => {
-            navigator.clipboard.writeText(generatedEmailP.textContent)
-                .then(() => {
-                    copyButton.textContent = 'Copied!';
-                    setTimeout(() => { copyButton.textContent = 'Copy'; }, 2000);
-                })
-                .catch(err => alert('Failed to copy!'));
+        document.getElementById('copy-btn').addEventListener('click', () => {
+            const emailText = document.getElementById('email-output').textContent;
+            navigator.clipboard.writeText(emailText);
+            alert('Email copied to clipboard!');
         });
     </script>
 </body>

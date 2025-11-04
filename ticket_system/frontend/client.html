@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create a New Ticket</title>
+    <title>Create IT Ticket</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Neumorphism styles */
         .neumorphism-container {
             background-color: #e0e5ec;
         }
@@ -20,131 +19,98 @@
         .neumorphism-input {
             background-color: #e0e5ec;
             border: none;
-            border-radius: 10px;
-            padding: 1rem;
-            box-shadow: inset 5px 5px 10px #a3b1c6, inset -5px -5px 10px #ffffff;
-            transition: all 0.2s ease-in-out;
-        }
-        .neumorphism-input:focus {
-            outline: none;
-            box-shadow: inset 7px 7px 14px #a3b1c6, inset -7px -7px 14px #ffffff;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            box-shadow: inset 4px 4px 8px #a3b1c6, inset -4px -4px 8px #ffffff;
         }
         .neumorphism-button {
             background-color: #e0e5ec;
             border: none;
-            border-radius: 10px;
-            padding: 1rem 2rem;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
             font-weight: 600;
             color: #333;
-            box-shadow: 5px 5px 10px #a3b1c6, -5px -5px 10px #ffffff;
+            box-shadow: 4px 4px 8px #a3b1c6, -4px -4px 8px #ffffff;
             transition: all 0.2s ease-in-out;
         }
         .neumorphism-button:hover {
-            box-shadow: 7px 7px 14px #a3b1c6, -7px -7px 14px #ffffff;
-        }
-        .neumorphism-button:active {
-            box-shadow: inset 5px 5px 10px #a3b1c6, inset -5px -5px 10px #ffffff;
+            box-shadow: 6px 6px 12px #a3b1c6, -6px -6px 12px #ffffff;
         }
     </style>
 </head>
 <body class="neumorphism-container min-h-screen flex items-center justify-center">
 
     <div class="neumorphism-card w-full max-w-lg">
-        <h1 class="text-3xl font-bold text-center text-gray-700 mb-6">Submit a Support Ticket</h1>
+        <h1 class="text-3xl font-bold text-center text-gray-700 mb-6">Submit a New Ticket</h1>
         <form id="create-ticket-form">
             <div class="mb-4">
-                <label for="user" class="block text-gray-600 mb-2">Created By</label>
-                <select id="user" name="user" class="w-full neumorphism-input" required></select>
+                <label for="user-select" class="block text-gray-700 mb-2">Select User</label>
+                <select id="user-select" class="neumorphism-input w-full" required>
+                    <!-- Users will be loaded here -->
+                </select>
             </div>
             <div class="mb-4">
-                <label for="title" class="block text-gray-600 mb-2">Title</label>
-                <input type="text" id="title" name="title" class="w-full neumorphism-input" required>
+                <label for="ticket-title" class="block text-gray-700 mb-2">Ticket Title</label>
+                <input type="text" id="ticket-title" class="neumorphism-input w-full" required>
             </div>
             <div class="mb-4">
-                <label for="description" class="block text-gray-600 mb-2">Description</label>
-                <textarea id="description" name="description" rows="4" class="w-full neumorphism-input" required></textarea>
+                <label for="ticket-description" class="block text-gray-700 mb-2">Description</label>
+                <textarea id="ticket-description" class="neumorphism-input w-full" rows="4" required></textarea>
             </div>
-            <div class="mb-6">
-                <label for="department" class="block text-gray-600 mb-2">Department</label>
-                <select id="department" name="department" class="w-full neumorphism-input" required></select>
-            </div>
-            <button type="submit" class="w-full neumorphism-button">Create Ticket</button>
+            <button type="submit" class="neumorphism-button w-full">Submit Ticket</button>
         </form>
-        <div id="response-message" class="mt-4 text-center"></div>
+        <p id="form-status" class="text-center mt-4"></p>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
-            const userSelect = document.getElementById('user');
-            const departmentSelect = document.getElementById('department');
+            const userSelect = document.getElementById('user-select');
             const form = document.getElementById('create-ticket-form');
-            const responseMessage = document.getElementById('response-message');
+            const formStatus = document.getElementById('form-status');
 
-            // --- Fetch and populate users ---
-            try {
-                const usersResponse = await fetch('/api/users');
-                const users = await usersResponse.json();
-                users.forEach(user => {
-                    const option = document.createElement('option');
-                    option.value = user.id;
-                    option.textContent = user.username;
-                    userSelect.appendChild(option);
-                });
-            } catch (error) {
-                console.error('Failed to load users:', error);
-                userSelect.innerHTML = '<option disabled>Could not load users</option>';
+            async function fetchUsers() {
+                try {
+                    const response = await fetch('/api/users');
+                    if (!response.ok) throw new Error('Failed to fetch users');
+                    const users = await response.json();
+
+                    userSelect.innerHTML = users.map(user => `<option value="${user.id}">${user.username}</option>`).join('');
+                } catch (error) {
+                    userSelect.innerHTML = `<option value="">${error.message}</option>`;
+                }
             }
 
-            // --- Populate departments (static for now) ---
-            const departments = [
-                { id: 1, name: 'IT' },
-                { id: 2, name: 'Human Resources' },
-                { id: 3, name: 'Finance' }
-            ];
-            departments.forEach(dept => {
-                const option = document.createElement('option');
-                option.value = dept.id;
-                option.textContent = dept.name;
-                departmentSelect.appendChild(option);
-            });
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                formStatus.textContent = 'Submitting...';
 
-            // --- Handle form submission ---
-            form.addEventListener('submit', async (event) => {
-                event.preventDefault();
-                responseMessage.textContent = '';
-
-                const formData = new FormData(form);
-                const data = {
-                    title: formData.get('title'),
-                    description: formData.get('description'),
-                    department_id: parseInt(formData.get('department')),
-                    created_by_id: parseInt(formData.get('user')) // Now dynamic
+                const ticketData = {
+                    title: document.getElementById('ticket-title').value,
+                    description: document.getElementById('ticket-description').value,
+                    created_by_id: userSelect.value,
+                    department_id: 1 // Hardcoded to IT department for this example
                 };
 
                 try {
                     const response = await fetch('/api/tickets', {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(data)
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(ticketData)
                     });
 
-                    const result = await response.json();
-
                     if (response.ok) {
-                        responseMessage.textContent = `Ticket created successfully! Ticket ID: ${result.ticket_id}`;
-                        responseMessage.style.color = 'green';
+                        formStatus.textContent = 'Ticket submitted successfully!';
                         form.reset();
                     } else {
-                        responseMessage.textContent = `Error: ${result.error}`;
-                        responseMessage.style.color = 'red';
+                        const errorData = await response.json();
+                        throw new Error(errorData.error || 'Failed to submit ticket.');
                     }
                 } catch (error) {
-                    responseMessage.textContent = 'An unexpected error occurred. Please try again.';
-                    responseMessage.style.color = 'red';
+                    formStatus.textContent = `Error: ${error.message}`;
                 }
             });
+
+            fetchUsers();
         });
     </script>
 </body>

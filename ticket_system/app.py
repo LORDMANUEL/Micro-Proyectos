@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify, g, send_from_directory
-from .database import get_db_connection
+from database import get_db_connection, init_db
 import os
 import requests
 import json
@@ -11,8 +11,7 @@ OLLAMA_API_KEY = os.environ.get("OLLAMA_API_KEY", "ollama") # Default key, chang
 OLLAMA_MODEL = os.environ.get("OLLAMA_MODEL", "llama2") # Default model
 
 # The static folder is set to the 'frontend' directory.
-# The relative path is calculated from the location of this script (backend).
-app = Flask(__name__, static_folder=os.path.join(os.path.dirname(__file__), '..', 'frontend'))
+app = Flask(__name__, static_folder='frontend')
 
 # Function to get the database connection and store it in the application context
 def get_db():
@@ -125,7 +124,7 @@ def get_tickets():
         tickets = db.execute(
             """
             SELECT
-                t.id, t.title, t.status, t.priority, t.category, t.created_at,
+                t.id, t.title, t.description, t.status, t.priority, t.category, t.created_at,
                 c.username as created_by,
                 a.username as assigned_to,
                 d.name as department
@@ -190,14 +189,14 @@ def assign_ticket(ticket_id):
     except Exception as e:
         return jsonify({'error': f'An error occurred: {str(e)}'}), 500
 
-# API endpoint to get all IT staff members
-@app.route('/api/it_staff', methods=['GET'])
-def get_it_staff():
+# API endpoint to get all admin users (IT staff)
+@app.route('/api/admins', methods=['GET'])
+def get_admins():
     try:
         db = get_db()
-        staff = db.execute("SELECT id, username FROM users WHERE role = 'admin'").fetchall()
-        staff_list = [dict(s) for s in staff]
-        return jsonify(staff_list), 200
+        admins = db.execute("SELECT id, username FROM users WHERE role = 'admin'").fetchall()
+        admin_list = [dict(s) for s in admins]
+        return jsonify(admin_list), 200
     except Exception as e:
         return jsonify({'error': f'An error occurred: {str(e)}'}), 500
 
@@ -224,6 +223,6 @@ def serve_it_page():
 
 
 if __name__ == '__main__':
-    # It's recommended to run Flask using a WSGI server like Gunicorn in production,
-    # but the dev server is fine for our purposes.
-    app.run(debug=True)
+    with app.app_context():
+        init_db()
+    app.run(host='0.0.0.0', port=5000, debug=True)

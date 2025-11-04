@@ -1,22 +1,10 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
-
-# SQLite database
-*.db
-*.sqlite3
-
-# Virtual environment
 venv/
-.venv/
-
-# Log files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
 *.log
-
-# Uploads
-minimalist_video_player/uploads/
-local_file_sharer/uploads/
-
-# Node.js dependencies
 node_modules/
+/docs/images/
+/laptop_repair_system/backend/repairs.db

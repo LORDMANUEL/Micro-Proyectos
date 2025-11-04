@@ -16,7 +16,7 @@ CREATE TABLE users (
     username TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL, -- In a real app, this should be hashed
     email TEXT NOT NULL UNIQUE,
-    role TEXT NOT NULL CHECK(role IN ('client', 'it_staff')), -- 'client' or 'it_staff'
+    role TEXT NOT NULL CHECK(role IN ('client', 'admin')), -- 'client' or 'admin'
     department_id INTEGER,
     FOREIGN KEY (department_id) REFERENCES departments (id)
 );
@@ -53,6 +53,11 @@ CREATE TABLE comments (
 -- Insert some initial data for testing
 INSERT INTO departments (name) VALUES ('IT'), ('Human Resources'), ('Finance');
 INSERT INTO users (username, password, email, role, department_id) VALUES
-    ('admin', 'adminpass', 'admin@example.com', 'it_staff', 1),
+    ('admin', 'adminpass', 'admin@example.com', 'admin', 1),
     ('johndoe', 'userpass', 'john.doe@example.com', 'client', 2),
     ('janedoe', 'userpass', 'jane.doe@example.com', 'client', 3);
+
+-- Insert some sample tickets
+INSERT INTO tickets (title, description, created_by_id, department_id) VALUES
+    ('Cannot connect to printer', 'My computer is not connecting to the office printer. I have tried restarting both devices.', 2, 1),
+    ('Laptop screen is cracked', 'I dropped my laptop and the screen is cracked. The display is not working properly.', 3, 1);

@@ -3,240 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - Minimalist Player</title>
+    <title>Minimalist Video Player</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            background-color: #e0e5ec;
-        }
-        .neumorphic {
-            background-color: #e0e5ec;
-            box-shadow: 9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5);
-        }
-        .neumorphic-inset {
-            box-shadow: inset 5px 5px 10px #a3b1c6, inset -5px -5px 10px #ffffff;
-        }
-        .neumorphic-btn:active {
-            box-shadow: inset 1px 1px 2px #a3b1c6, inset -1px -1px 2px #ffffff;
-        }
-        .drop-zone {
-            border: 2px dashed #a3b1c6;
-        }
-        .media-item {
-            cursor: grab;
-        }
-    </style>
 </head>
-<body class="p-8">
-    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+<body class="bg-gray-100 min-h-screen">
 
-        <!-- Left Column: Upload and Media Library -->
-        <div class="md:col-span-1 space-y-8">
-            <!-- File Upload -->
-            <div class="p-6 rounded-2xl neumorphic">
-                <h2 class="text-xl font-bold mb-4 text-gray-700">1. Upload Media</h2>
-                <form id="upload-form" class="space-y-4">
-                    <input type="file" name="file" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#e0e5ec] file:text-gray-700 hover:file:bg-[#d1d9e6] neumorphic-inset p-2 rounded-lg"/>
-                    <button type="submit" class="w-full py-3 px-4 rounded-xl neumorphic neumorphic-btn font-semibold text-gray-800">Upload</button>
-                </form>
-            </div>
+    <div class="container mx-auto p-8">
+        <h1 class="text-3xl font-bold text-center mb-8">Minimalist Video Player</h1>
 
-            <!-- Media Library -->
-            <div class="p-6 rounded-2xl neumorphic">
-                <h2 class="text-xl font-bold mb-4 text-gray-700">2. Media Library</h2>
-                <div id="media-library" class="space-y-2 h-72 overflow-y-auto neumorphic-inset p-4 rounded-lg">
-                    <!-- Media items will be populated here -->
-                </div>
-            </div>
-
-            <!-- AI Content Generation -->
-            <div class="p-6 rounded-2xl neumorphic">
-                <h2 class="text-xl font-bold mb-4 text-gray-700">Generate with AI</h2>
-                <textarea id="ai-prompt" rows="3" placeholder="e.g., A blue background with a welcome message in the center." class="w-full p-3 rounded-lg neumorphic-inset focus:outline-none mb-4"></textarea>
-                <input type="text" id="ai-filename" placeholder="Enter filename (e.g., welcome.html)" class="w-full p-3 rounded-lg neumorphic-inset focus:outline-none mb-4">
-                <button id="generate-ai-btn" class="w-full py-3 px-4 rounded-xl neumorphic neumorphic-btn font-semibold text-gray-800">Generate</button>
-            </div>
+        <div class="bg-white p-8 rounded-lg shadow-lg mb-8">
+            <h2 class="text-xl font-bold mb-4">Upload Media</h2>
+            <input type="file" id="file-upload" class="border p-2 w-full">
+            <button id="upload-btn" class="bg-blue-500 text-white px-4 py-2 rounded mt-4">Upload</button>
         </div>
 
-        <!-- Right Column: Playlist Management -->
-        <div class="md:col-span-2 space-y-8">
-            <!-- Create Playlist -->
-            <div class="p-6 rounded-2xl neumorphic">
-                <h2 class="text-xl font-bold mb-4 text-gray-700">3. Create Playlist</h2>
-                <div class="space-y-4">
-                    <input type="text" id="playlist-name" placeholder="Enter Playlist Name" class="w-full p-3 rounded-lg neumorphic-inset focus:outline-none">
-                    <div id="playlist-drop-zone" class="p-4 h-64 rounded-lg drop-zone overflow-y-auto space-y-2">
-                        <p class="text-gray-500 text-center">Drag files here from the library</p>
-                    </div>
-                    <button id="create-playlist-btn" class="w-full py-3 px-4 rounded-xl neumorphic neumorphic-btn font-semibold text-gray-800">Create Playlist</button>
-                </div>
-            </div>
-
-            <!-- Existing Playlists -->
-            <div class="p-6 rounded-2xl neumorphic">
-                <h2 class="text-xl font-bold mb-4 text-gray-700">Existing Playlists</h2>
-                <div id="playlists-list" class="space-y-3">
-                    <!-- Playlists will be populated here -->
-                </div>
-            </div>
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+            <h2 class="text-xl font-bold mb-4">Playlist</h2>
+            <div id="playlist" class="space-y-2"></div>
+            <button id="play-btn" class="bg-green-500 text-white px-4 py-2 rounded mt-4">Play</button>
         </div>
     </div>
 
+    <div id="player" class="fixed inset-0 bg-black hidden">
+        <video id="video-player" class="w-full h-full" controls></video>
+        <img id="image-player" class="w-full h-full object-contain" />
+        <iframe id="html-player" class="w-full h-full"></iframe>
+        <button id="close-player-btn" class="absolute top-4 right-4 text-white text-2xl">&times;</button>
+    </div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const uploadForm = document.getElementById('upload-form');
-            const mediaLibrary = document.getElementById('media-library');
-            const playlistDropZone = document.getElementById('playlist-drop-zone');
-            const createPlaylistBtn = document.getElementById('create-playlist-btn');
-            const playlistsList = document.getElementById('playlists-list');
-            const playlistNameInput = document.getElementById('playlist-name');
+        const uploadBtn = document.getElementById('upload-btn');
+        const fileUpload = document.getElementById('file-upload');
+        const playlistDiv = document.getElementById('playlist');
+        const playBtn = document.getElementById('play-btn');
+        const playerDiv = document.getElementById('player');
+        const videoPlayer = document.getElementById('video-player');
+        const imagePlayer = document.getElementById('image-player');
+        const htmlPlayer = document.getElementById('html-player');
+        const closePlayerBtn = document.getElementById('close-player-btn');
 
-            let playlistItems = [];
+        let playlist = [];
+        let currentTrack = 0;
 
-            // --- Fetch and Render Initial Data ---
-            async function loadMedia() {
-                const response = await fetch('/api/files');
-                const files = await response.json();
-                mediaLibrary.innerHTML = '';
-                files.forEach(file => {
-                    const div = document.createElement('div');
-                    div.className = 'p-2 rounded-lg neumorphic-btn media-item';
-                    div.textContent = file.filename;
-                    div.draggable = true;
-                    div.dataset.id = file.id;
-                    div.addEventListener('dragstart', handleDragStart);
-                    mediaLibrary.appendChild(div);
-                });
+        uploadBtn.addEventListener('click', async () => {
+            const file = fileUpload.files[0];
+            if (!file) {
+                alert('Please select a file to upload.');
+                return;
             }
 
-            async function loadPlaylists() {
-                const response = await fetch('/api/playlists');
-                const playlists = await response.json();
-                playlistsList.innerHTML = '';
-                playlists.forEach(playlist => {
-                    const div = document.createElement('div');
-                    div.className = 'p-3 rounded-lg neumorphic-inset flex justify-between items-center';
-                    const playlistUrl = `${window.location.origin}/view/${playlist.id}`;
-                    div.innerHTML = `
-                        <span class="font-semibold">${playlist.name}</span>
-                        <input type="text" value="${playlistUrl}" class="bg-transparent text-sm text-gray-600 w-1/2" readonly>
-                        <button onclick="copyToClipboard('${playlistUrl}')" class="px-3 py-1 rounded-lg neumorphic neumorphic-btn text-xs">Copy</button>
-                    `;
-                    playlistsList.appendChild(div);
-                });
-            }
+            const formData = new FormData();
+            formData.append('file', file);
 
-            // --- Drag and Drop Handlers ---
-            function handleDragStart(e) {
-                e.dataTransfer.setData('text/plain', e.target.dataset.id);
-                e.dataTransfer.setData('text/html', e.target.textContent);
-            }
-
-            playlistDropZone.addEventListener('dragover', e => e.preventDefault());
-
-            playlistDropZone.addEventListener('drop', e => {
-                e.preventDefault();
-                const id = e.dataTransfer.getData('text/plain');
-                const name = e.dataTransfer.getData('text/html');
-
-                if (playlistItems.find(item => item.id === id)) return; // Avoid duplicates
-
-                if (playlistDropZone.querySelector('p')) {
-                    playlistDropZone.innerHTML = ''; // Clear placeholder
-                }
-
-                const div = document.createElement('div');
-                div.className = 'p-2 rounded-lg neumorphic-inset';
-                div.textContent = name;
-                div.dataset.id = id;
-                playlistDropZone.appendChild(div);
-
-                playlistItems.push({ id, name });
-            });
-
-            // --- Form Handlers ---
-            uploadForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const formData = new FormData(uploadForm);
-                await fetch('/api/upload', {
+            try {
+                const response = await fetch('/api/upload', {
                     method: 'POST',
                     body: formData,
                 });
-                uploadForm.reset();
-                loadMedia();
-            });
-
-            createPlaylistBtn.addEventListener('click', async () => {
-                const name = playlistNameInput.value;
-                const itemIds = playlistItems.map(item => parseInt(item.id));
-
-                if (!name || itemIds.length === 0) {
-                    alert('Please provide a name and add items to the playlist.');
-                    return;
+                const data = await response.json();
+                if (response.ok) {
+                    playlist.push(data.filename);
+                    renderPlaylist();
+                } else {
+                    throw new Error(data.error);
                 }
-
-                await fetch('/api/playlists', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, items: itemIds }),
-                });
-
-                // Reset
-                playlistNameInput.value = '';
-                playlistDropZone.innerHTML = '<p class="text-gray-500 text-center">Drag files here from the library</p>';
-                playlistItems = [];
-                loadPlaylists();
-            });
-
-            // --- Utility ---
-            window.copyToClipboard = (text) => {
-                navigator.clipboard.writeText(text).then(() => alert('URL copied!'));
+            } catch (error) {
+                alert(`Error: ${error.message}`);
             }
-
-            const aiPromptInput = document.getElementById('ai-prompt');
-            const aiFilenameInput = document.getElementById('ai-filename');
-            const generateAiBtn = document.getElementById('generate-ai-btn');
-
-            generateAiBtn.addEventListener('click', async () => {
-                const prompt = aiPromptInput.value;
-                const filename = aiFilenameInput.value;
-
-                if (!prompt || !filename) {
-                    alert('Please provide a prompt and a filename.');
-                    return;
-                }
-
-                generateAiBtn.textContent = 'Generating...';
-                generateAiBtn.disabled = true;
-
-                try {
-                    const response = await fetch('/api/generate_html', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ prompt, filename }),
-                    });
-
-                    if (!response.ok) {
-                        const errorData = await response.json();
-                        throw new Error(errorData.error || 'Failed to generate HTML.');
-                    }
-
-                    aiPromptInput.value = '';
-                    aiFilenameInput.value = '';
-                    loadMedia();
-
-                } catch (error) {
-                    alert(`Error: ${error.message}`);
-                } finally {
-                    generateAiBtn.textContent = 'Generate';
-                    generateAiBtn.disabled = false;
-                }
-            });
-
-            // --- Initial Load ---
-            loadMedia();
-            loadPlaylists();
         });
+
+        function renderPlaylist() {
+            playlistDiv.innerHTML = playlist.map((filename, index) => `
+                <div class="flex justify-between items-center p-2 rounded ${index === currentTrack ? 'bg-gray-200' : ''}">
+                    <span>${filename}</span>
+                </div>
+            `).join('');
+        }
+
+        playBtn.addEventListener('click', () => {
+            if (playlist.length > 0) {
+                playerDiv.classList.remove('hidden');
+                playTrack(currentTrack);
+            }
+        });
+
+        closePlayerBtn.addEventListener('click', () => {
+            playerDiv.classList.add('hidden');
+            videoPlayer.pause();
+        });
+
+        function playTrack(index) {
+            const filename = playlist[index];
+            const extension = filename.split('.').pop().toLowerCase();
+
+            videoPlayer.classList.add('hidden');
+            imagePlayer.classList.add('hidden');
+            htmlPlayer.classList.add('hidden');
+
+            if (['mp4', 'webm'].includes(extension)) {
+                videoPlayer.classList.remove('hidden');
+                videoPlayer.src = `/uploads/${filename}`;
+                videoPlayer.play();
+                videoPlayer.onended = () => playNext();
+            } else if (['jpg', 'jpeg', 'png', 'gif'].includes(extension)) {
+                imagePlayer.classList.remove('hidden');
+                imagePlayer.src = `/uploads/${filename}`;
+                setTimeout(playNext, 5000); // Show image for 5 seconds
+            } else if (['html'].includes(extension)) {
+                htmlPlayer.classList.remove('hidden');
+                htmlPlayer.src = `/uploads/${filename}`;
+                setTimeout(playNext, 10000); // Show HTML for 10 seconds
+            }
+        }
+
+        function playNext() {
+            currentTrack = (currentTrack + 1) % playlist.length;
+            playTrack(currentTrack);
+            renderPlaylist();
+        }
     </script>
 </body>
 </html>

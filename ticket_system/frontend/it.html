@@ -80,13 +80,13 @@
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             const ticketQueue = document.getElementById('ticket-queue');
-            let itStaff = [];
+            let admins = [];
 
-            async function fetchItStaff() {
+            async function fetchAdmins() {
                 try {
-                    const response = await fetch('/api/it_staff');
-                    if (!response.ok) throw new Error('Failed to fetch IT staff');
-                    itStaff = await response.json();
+                    const response = await fetch('/api/admins');
+                    if (!response.ok) throw new Error('Failed to fetch admins');
+                    admins = await response.json();
                 } catch (error) {
                     console.error(error.message);
                 }
@@ -109,7 +109,7 @@
                     return;
                 }
 
-                const staffOptions = itStaff.map(staff => `<option value="${staff.id}">${staff.username}</option>`).join('');
+                const adminOptions = admins.map(admin => `<option value="${admin.id}">${admin.username}</option>`).join('');
 
                 ticketQueue.innerHTML = tickets.map(ticket => `
                     <tr data-ticket-id="${ticket.id}">
@@ -124,7 +124,7 @@
                             <div class="flex items-center space-x-2">
                                 <select class="assign-select neumorphism-select w-full" ${ticket.status === 'Closed' ? 'disabled' : ''}>
                                     <option value="">Assign to...</option>
-                                    ${staffOptions}
+                                    ${adminOptions}
                                 </select>
                                 <button class="neumorphism-button assign-btn" ${ticket.status === 'Closed' ? 'disabled' : ''}>Assign</button>
                             </div>
@@ -136,7 +136,7 @@
 
             async function assignTicket(ticketId, assigneeId) {
                 if (!assigneeId) {
-                    alert('Please select a staff member to assign the ticket.');
+                    alert('Please select an admin to assign the ticket.');
                     return;
                 }
 
@@ -193,7 +193,7 @@
             });
 
             async function initialize() {
-                await fetchItStaff();
+                await fetchAdmins();
                 await fetchTickets();
             }
 

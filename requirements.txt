@@ -1,0 +1,9 @@
+Flask
+requests
+qdrant-client
+sentence-transformers
+numpy
+torch
+PyPDF2
+qrcode
+Pillow
