@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ticket #{{ ticket.id }}</title>
+    <style>
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f4f8; color: #333; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 20px auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        h1 { color: #5a67d8; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .ticket-details { display: grid; grid-template-columns: 150px 1fr; gap: 10px 20px; margin-bottom: 20px; }
+        .ticket-details strong { font-weight: bold; }
+        .status-update { margin-top: 20px; }
+        select { padding: 10px; border-radius: 4px; border: 1px solid #ccc; }
+        .button-update { background-color: #28a745; color: #fff; padding: 10px 18px; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s; }
+        .button-update:hover { background-color: #218838; }
+        .flash { padding: 1rem; margin-bottom: 1rem; border: 1px solid transparent; border-radius: .25rem; }
+        .flash-info { color: #055160; background-color: #cff4fc; border-color: #b6effb; }
+        .status { padding: 5px 10px; border-radius: 15px; color: #fff; font-size: 0.9em; text-align: center; display: inline-block;}
+        .status-Received { background-color: #6c757d; }
+        .status-In-Diagnostics { background-color: #007bff; }
+        .status-Awaiting-Parts { background-color: #fd7e14; }
+        .status-In-Repair { background-color: #ffc107; color: #000; }
+        .status-Repair-Complete { background-color: #28a745; }
+        .status-Ready-for-Pickup { background-color: #17a2b8; }
+        .status-Delivered { background-color: #343a40; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Repair Ticket #{{ ticket.id }}</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="ticket-details">
+            <strong>Customer:</strong>         <span>{{ ticket.customer_name }}</span>
+            <strong>Laptop Model:</strong>     <span>{{ ticket.laptop_model }}</span>
+            <strong>Serial Number:</strong>    <span>{{ ticket.serial_number }}</span>
+            <strong>Date Received:</strong>    <span>{{ ticket.created_at.strftime('%Y-%m-%d %H:%M') }}</span>
+            <strong>Last Updated:</strong>     <span>{{ ticket.updated_at.strftime('%Y-%m-%d %H:%M') }}</span>
+            <strong>Current Status:</strong>   <span><span class="status status-{{ ticket.status.replace(' ', '-') }}">{{ ticket.status }}</span></span>
+            <strong>Issue:</strong>            <span>{{ ticket.issue_description }}</span>
+        </div>
+
+        <div class="status-update">
+            <h2>Update Status</h2>
+            <form method="post">
+                <select name="status">
+                    {% for status in statuses %}
+                        <option value="{{ status }}" {% if ticket.status == status %}selected{% endif %}>{{ status }}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="button-update">Update Status</button>
+            </form>
+        </div>
+        <p><a href="{{ url_for('index') }}">Back to Ticket List</a></p>
+    </div>
+</body>
+</html>

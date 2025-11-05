@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PC Inventory</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f8f9fa; color: #333; margin: 20px; }
+        h1 { color: #0056b3; }
+        a { color: #007bff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .container { max-width: 1000px; margin: auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .button { background-color: #28a745; color: white; padding: 10px 15px; border-radius: 5px; border: none; cursor: pointer; display: inline-block; margin-bottom: 20px; }
+        .button:hover { background-color: #218838; }
+        .button.edit { background-color: #ffc107; }
+        .button.edit:hover { background-color: #e0a800; }
+        .button.delete { background-color: #dc3545; }
+        .button.delete:hover { background-color: #c82333; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #dee2e6; padding: 12px; text-align: left; }
+        th { background-color: #e9ecef; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+        tr:hover { background-color: #ddd; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PC Inventory</h1>
+        <a href="{{ url_for('add_pc') }}" class="button">Add New PC</a>
+        <table>
+            <thead>
+                <tr>
+                    <th>Hostname</th>
+                    <th>Owner</th>
+                    <th>RAM</th>
+                    <th>CPU</th>
+                    <th>Storage</th>
+                    <th>OS</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pc in pcs %}
+                <tr>
+                    <td>{{ pc.hostname }}</td>
+                    <td>{{ pc.owner }}</td>
+                    <td>{{ pc.ram }}</td>
+                    <td>{{ pc.cpu }}</td>
+                    <td>{{ pc.storage }}</td>
+                    <td>{{ pc.os }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_pc', id=pc.id) }}" class="button edit">Edit</a>
+                        <a href="{{ url_for('delete_pc', id=pc.id) }}" class="button delete" onclick="return confirm('Are you sure?')">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

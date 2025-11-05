@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Windows Diagnostic Tester</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f8f9fa; color: #212529; text-align: center; padding-top: 50px; }
+        .container { max-width: 600px; margin: auto; background: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); }
+        h1 { color: #007bff; margin-bottom: 30px; }
+        .test-buttons { display: flex; flex-direction: column; gap: 15px; }
+        .btn { display: block; width: 100%; background-color: #007bff; color: white; padding: 15px 20px; border: none; border-radius: 8px; cursor: pointer; text-align: center; font-size: 18px; text-decoration: none; transition: background-color 0.2s ease-in-out; }
+        .btn:hover { background-color: #0056b3; }
+        .btn-warning { background-color: #ffc107; color: #000; }
+        .btn-warning:hover { background-color: #e0a800; }
+        .note { font-size: 14px; color: #6c757d; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Windows Diagnostic Tester</h1>
+        <p>Select a diagnostic test to run. Some tests may take a few minutes to complete.</p>
+        <div class="test-buttons">
+            <form action="{{ url_for('run_test') }}" method="post">
+                {% for key, test in tests.items() %}
+                    <button type="submit" name="test" value="{{ key }}" class="btn {{ 'btn-warning' if 'Admin' in test.name else '' }}">
+                        {{ test.name }}
+                    </button>
+                {% endfor %}
+            </form>
+        </div>
+        <p class="note">Tests requiring Administrator privileges must be run from a terminal that was started with "Run as Administrator".</p>
+    </div>
+</body>
+</html>

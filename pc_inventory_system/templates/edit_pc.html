@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit PC</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f8f9fa; color: #333; margin: 20px; }
+        h1 { color: #0056b3; }
+        .container { max-width: 500px; margin: auto; background-color: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        form { display: flex; flex-direction: column; }
+        label { margin-bottom: 5px; font-weight: bold; }
+        input[type=text] { padding: 10px; margin-bottom: 20px; border-radius: 4px; border: 1px solid #ccc; }
+        input[type=submit] { background-color: #007bff; color: white; padding: 12px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        input[type=submit]:hover { background-color: #0056b3; }
+        a { color: #007bff; text-decoration: none; display: inline-block; margin-top: 15px; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit PC Details</h1>
+        <form method="post">
+            <label for="hostname">Hostname</label>
+            <input type="text" name="hostname" id="hostname" value="{{ pc.hostname }}" required>
+
+            <label for="owner">Owner</label>
+            <input type="text" name="owner" id="owner" value="{{ pc.owner }}" required>
+
+            <label for="ram">RAM</label>
+            <input type="text" name="ram" id="ram" value="{{ pc.ram }}">
+
+            <label for="cpu">CPU</label>
+            <input type="text" name="cpu" id="cpu" value="{{ pc.cpu }}">
+
+            <label for="storage">Storage</label>
+            <input type="text" name="storage" id="storage" value="{{ pc.storage }}">
+
+            <label for="os">Operating System</label>
+            <input type="text" name="os" id="os" value="{{ pc.os }}">
+
+            <input type="submit" value="Update PC">
+        </form>
+        <a href="{{ url_for('index') }}">Back to Inventory</a>
+    </div>
+</body>
+</html>

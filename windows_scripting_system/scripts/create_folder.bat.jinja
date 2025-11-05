@@ -1,0 +1,14 @@
+@echo off
+REM Script to create a new folder.
+
+set FOLDER_NAME="{{ folder_name }}"
+
+echo Creating folder at %FOLDER_NAME%...
+IF NOT EXIST %FOLDER_NAME% (
+    mkdir %FOLDER_NAME%
+    echo Folder created successfully.
+) ELSE (
+    echo Folder already exists.
+)
+
+pause

@@ -1,0 +1,26 @@
+@echo off
+REM Script to set a static IP address for a network interface.
+
+set INTERFACE_NAME="{{ interface_name }}"
+set IP_ADDRESS="{{ ip_address }}"
+set SUBNET_MASK="{{ subnet_mask }}"
+set GATEWAY="{{ gateway }}"
+
+echo Configuring static IP for "%INTERFACE_NAME%"...
+echo IP Address: %IP_ADDRESS%
+echo Subnet Mask: %SUBNET_MASK%
+echo Default Gateway: %GATEWAY%
+
+netsh interface ip set address name="%INTERFACE_NAME%" static %IP_ADDRESS% %SUBNET_MASK% %GATEWAY%
+
+IF %ERRORLEVEL% EQU 0 (
+    echo Static IP address configured successfully.
+    echo.
+    echo You may need to configure DNS servers separately.
+    echo Example: netsh interface ip set dns name="%INTERFACE_NAME%" static 8.8.8.8
+) ELSE (
+    echo Failed to configure static IP. Error code: %ERRORLEVEL%
+    echo Please ensure you are running this script as an Administrator.
+)
+
+pause

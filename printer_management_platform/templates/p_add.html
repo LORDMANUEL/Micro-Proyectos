@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Printer</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #eef2f7; color: #333; margin: 20px; }
+        h1 { color: #004a99; text-align: center; }
+        .container { max-width: 600px; margin: auto; background-color: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        form { display: grid; grid-template-columns: 1fr; gap: 15px; }
+        label { font-weight: bold; }
+        input[type=text], input[type=checkbox] { padding: 10px; border-radius: 5px; border: 1px solid #ccc; width: calc(100% - 22px); }
+        input[type=checkbox] { width: auto; }
+        .form-group { display: flex; flex-direction: column; }
+        .checkbox-group { flex-direction: row; align-items: center; }
+        input[type=submit] { background-color: #0066cc; color: white; padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; justify-self: start; }
+        input[type=submit]:hover { background-color: #0052a3; }
+        a { color: #0066cc; text-decoration: none; display: inline-block; margin-top: 20px; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Add a New Printer</h1>
+        <form method="post">
+            <div class="form-group">
+                <label for="name">Printer Name</label>
+                <input type="text" name="name" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="model">Model</label>
+                <input type="text" name="model" id="model" required>
+            </div>
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input type="text" name="location" id="location">
+            </div>
+            <div class="form-group">
+                <label for="ip_address">IP Address</label>
+                <input type="text" name="ip_address" id="ip_address" required>
+            </div>
+            <div class="form-group">
+                <label for="consumables">Consumables (comma-separated)</label>
+                <input type="text" name="consumables" id="consumables">
+            </div>
+            <div class="form-group checkbox-group">
+                <input type="checkbox" name="is_rented" id="is_rented">
+                <label for="is_rented" style="margin-left: 10px;">Is this printer rented?</label>
+            </div>
+            <input type="submit" value="Add Printer">
+        </form>
+        <a href="{{ url_for('index') }}">Back to Printer List</a>
+    </div>
+</body>
+</html>

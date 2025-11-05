@@ -1,0 +1,16 @@
+@echo off
+REM Script to map a network drive.
+
+set DRIVE_LETTER="{{ drive_letter }}"
+set NETWORK_PATH="{{ network_path }}"
+
+echo Mapping %DRIVE_LETTER% to %NETWORK_PATH%...
+net use %DRIVE_LETTER% %NETWORK_PATH% /persistent:yes
+
+IF %ERRORLEVEL% EQU 0 (
+    echo Network drive mapped successfully.
+) ELSE (
+    echo Failed to map network drive. Error code: %ERRORLEVEL%
+)
+
+pause

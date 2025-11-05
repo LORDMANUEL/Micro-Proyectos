@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Generated Script</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; background-color: #f0f2f5; color: #333; margin: 20px; }
+        .container { max-width: 800px; margin: auto; background-color: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1 { color: #198754; }
+        pre { background-color: #e9ecef; padding: 15px; border-radius: 5px; border: 1px solid #dee2e6; white-space: pre-wrap; word-wrap: break-word; }
+        code { font-family: 'Courier New', Courier, monospace; }
+        .button { background-color: #0d6efd; color: white; padding: 12px 20px; border-radius: 5px; border: none; cursor: pointer; display: inline-block; text-decoration: none; margin-top: 15px; }
+        .button:hover { background-color: #0b5ed7; }
+        a { color: #0d6efd; text-decoration: none; display: inline-block; margin-top: 20px; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Script Generated Successfully!</h1>
+        <p>Below is your generated script. You can copy it or download it as a <code>.bat</code> file.</p>
+        <pre><code>{{ script }}</code></pre>
+        <a href="{{ url_for('download_script', filename=filename, content=script) }}" class="button">Download {{ filename }}</a>
+        <br>
+        <a href="{{ url_for('index') }}">Generate Another Script</a>
+    </div>
+</body>
+</html>
